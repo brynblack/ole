@@ -18,6 +18,37 @@ header {
   padding: 1rem;
 }
 
+.dropdown-content {
+  background-color: #181818;
+  border-radius: 1rem;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  animation: slide 500ms ease-in-out forwards;
+  transform-origin: top center;
+}
+
+@keyframes slide {
+  0% {
+      opacity: 0%;
+      transform: translateY(-100px)
+  }
+  80% {
+      transform: translateY(0.5)
+  }
+  100% {
+      opacity: 100%;
+      transform: translateY(0)
+  }
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+  transform:translateX(10px);
+}
+
 .logo {
   width: 2rem;
 }
@@ -33,6 +64,24 @@ main {
   padding: 1rem;
 }
 
-h1 {
-  margin: 0;
+h1, h4, p {
+  margin: 0 0 1rem 0;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.courses > * {
+  background-color: #181818;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.courses > * > img {
+  height: 20rem;
+  width: 100%;
+  object-fit: cover;
 }
