@@ -6,7 +6,7 @@
 body {
   background-color: var(--bg-color);
   color: var(--fg-color);
-  font-family: 'Fira Code', 'Nerd Font';
+  font-family: 'Lato', 'Nerd Font';
   margin: 0;
 }
 
@@ -29,6 +29,11 @@ nav > img {
 }
 
 /* DIRTY */
+@font-face {
+  font-family: 'Lato';
+  src: url(Lato-Regular.ttf);
+}
+
 @font-face {
   font-family: 'Nerd Font';
   src: url(Symbols-2048-em\ Nerd\ Font\ Complete.ttf);
