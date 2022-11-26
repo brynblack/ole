@@ -1,19 +1,38 @@
+@font-face {
+  font-family: 'Lato';
+  src: url(Lato-Regular.ttf);
+}
+
 body {
-  background-color: #1f1f1f;
-  font-family: 'Fira Code';
-  font-weight: 1000;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Lato';
   margin: 0;
 }
 
 header {
-  background-color: #000000;
-  border-radius: 1rem;
-  color: #ffffff;
-  margin: 1rem;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+  display: flex;
+  justify-content: space-between;
   padding: 1rem;
 }
 
-header > a {
-  color: #ffffff;
-  text-decoration: none;
+.logo {
+  width: 2rem;
+}
+
+.pfp {
+  border-radius: 50%;
+  height: 2rem;
+  object-fit: cover;
+  width: 2rem;
+}
+
+main {
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
 }
