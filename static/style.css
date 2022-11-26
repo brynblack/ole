@@ -1,0 +1,19 @@
+body {
+  background-color: #1f1f1f;
+  font-family: 'Fira Code';
+  font-weight: 1000;
+  margin: 0;
+}
+
+header {
+  background-color: #000000;
+  border-radius: 1rem;
+  color: #ffffff;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+header > a {
+  color: #ffffff;
+  text-decoration: none;
+}
