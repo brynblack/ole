@@ -27,9 +27,19 @@ nav > div {
 
 nav > div > .ham {
   height: 1.5rem;
+  cursor: pointer;
+  
+  padding: 0.25rem;
+  border-radius: 0.25rem;
 
   /* TEMP */
   filter: invert(100%);
+  aspect-ratio: 1 / 1;
+  transition-duration: 250ms;
+}
+
+nav > div > .ham:hover {
+  background-color: #00000032;
 }
 
 nav > div > .logo {
@@ -41,6 +51,14 @@ nav > img {
   height: 2rem;
   object-fit: cover;
   width: 2rem;
+  
+  cursor: pointer;
+  
+  transition-duration: 250ms;
+}
+
+nav > img:hover {
+  filter: brightness(50%);
 }
 
 main {
@@ -55,7 +73,7 @@ main {
 }
 
 .course {
-  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(a.jpg);
+  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(sdd.jpg);
   background-position: center;
   background-size: cover;
   border-radius: 1rem;
@@ -66,6 +84,7 @@ main {
   transition-timing-function: cubic-bezier(0.0, 0.1, 0.0, 1.0);
   
   box-shadow: 0 0 32px 4px #000000;
+  cursor: pointer;
 }
 
 .course:hover {
