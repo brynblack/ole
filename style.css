@@ -72,8 +72,15 @@ main {
   gap: 1rem;
 }
 
-.course {
+.sdd {
   background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(sdd.jpg);
+}
+
+.ipt {
+  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(ipt.jpg);
+}
+
+.course {
   background-position: center;
   background-size: cover;
   border-radius: 1rem;
