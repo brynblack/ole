@@ -77,7 +77,7 @@ main {
 }
 
 .ipt {
-  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(ipt.jpg);
+  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(ipt.png);
 }
 
 .course {
