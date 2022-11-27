@@ -6,9 +6,10 @@
 body {
   background-color: var(--bg-color);
   color: var(--fg-color);
-  font-family: 'Lato', 'Nerd Font';
+  font-family: 'Lato';
   height: 100vh;
   margin: 0;
+  overflow: clip;
 }
 
 nav {
@@ -19,7 +20,20 @@ nav {
 }
 
 nav > div {
-  font-size: 2rem;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+nav > div > .ham {
+  height: 1.5rem;
+
+  /* TEMP */
+  filter: invert(100%);
+}
+
+nav > div > .logo {
+  height: 2rem;
 }
 
 nav > img {
@@ -29,14 +43,49 @@ nav > img {
   width: 2rem;
 }
 
+main {
+  padding: 1rem;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.course {
+  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(a.jpg);
+  background-position: center;
+  background-size: cover;
+  border-radius: 1rem;
+  
+  position: relative;
+  height: 16rem;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.0, 0.1, 0.0, 1.0);
+}
+
+.course:hover {
+  transform: scale(1.05);
+  z-index: 1000;
+}
+
+.course > span {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+}
+
 /* DIRTY */
 @font-face {
   font-family: 'Lato';
   src: url(Lato-Regular.ttf);
 }
 
-@font-face {
-  font-family: 'Nerd Font';
-  src: url(Symbols-2048-em\ Nerd\ Font\ Complete.ttf);
+h1,
+h4,
+p {
+  margin: 0;
 }
 /* DIRTY */
