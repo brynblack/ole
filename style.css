@@ -64,6 +64,8 @@ main {
   height: 16rem;
   transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.0, 0.1, 0.0, 1.0);
+  
+  box-shadow: 0 0 32px 4px #000000;
 }
 
 .course:hover {
