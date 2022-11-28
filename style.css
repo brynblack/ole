@@ -80,6 +80,10 @@ main {
   background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(ipt.png);
 }
 
+.cc {
+  background: linear-gradient(to top, rgba(0.0, 0.0, 0.0, 0.75), transparent), url(cc.jpg);
+}
+
 .course {
   background-position: center;
   background-size: cover;
