@@ -5,11 +5,18 @@
   --sub-color: #bfbfbf;
 }
 
+@media screen and (max-width: 480px) {
+  .logo {
+    content: url(logo.svg);
+  }
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--fg-color);
   font-family: 'Lato';
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   margin: 0;
   overflow-x: clip;
 }
@@ -21,13 +28,7 @@ nav {
   justify-content: space-between;
 }
 
-nav > div {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-}
-
-nav > div > .ham {
+.ham {
   height: 1.5rem;
   cursor: pointer;
   
@@ -40,15 +41,15 @@ nav > div > .ham {
   transition-duration: 250ms;
 }
 
-nav > div > .ham:hover {
+.ham:hover {
   background-color: #00000032;
 }
 
-nav > div > .logo {
+.logo {
   height: 2rem;
 }
 
-nav > img {
+.pfp {
   border-radius: 50%;
   height: 2rem;
   object-fit: cover;
@@ -59,7 +60,7 @@ nav > img {
   transition-duration: 250ms;
 }
 
-nav > img:hover {
+.pfp:hover {
   filter: brightness(50%);
 }
 
