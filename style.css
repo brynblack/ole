@@ -1,6 +1,8 @@
 :root {
   --bg-color: #000000;
   --fg-color: #ffffff;
+  
+  --sub-color: #bfbfbf;
 }
 
 body {
@@ -63,6 +65,10 @@ nav > img:hover {
 
 main {
   padding: 1rem;
+}
+
+.course-count {
+  color: var(--sub-color);
 }
 
 .courses {
