@@ -1,37 +1,40 @@
-use actix_web::{web, App, HttpResponse, HttpServer};
+use actix_web::{web, App, HttpServer};
+use diesel::{Connection, PgConnection};
+use dotenvy::dotenv;
+use ole::{handlers, AppState};
+use std::env;
 
-async fn login() -> HttpResponse {
-    HttpResponse::Ok().body("Logged in!")
-}
+fn establish_connection() -> PgConnection {
+    dotenv().ok();
 
-async fn logout() -> HttpResponse {
-    HttpResponse::Ok().body("Logged out!")
-}
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
-async fn create_acc() -> HttpResponse {
-    HttpResponse::Ok().body("Created Account!")
-}
-
-async fn remove_acc() -> HttpResponse {
-    HttpResponse::Ok().body("Deleted Account!")
+    PgConnection::establish(&database_url)
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
-        App::new().service(
-            web::scope("/api")
-                .service(
-                    web::resource("/auth")
-                        .route(web::post().to(login))
-                        .route(web::delete().to(logout)),
-                )
-                .service(
-                    web::resource("/accounts")
-                        .route(web::post().to(create_acc))
-                        .route(web::delete().to(remove_acc)),
-                ),
-        )
+        App::new()
+            .app_data(web::Data::new(|| {
+                let connection = establish_connection();
+
+                AppState { connection }
+            }))
+            .service(
+                web::scope("/api")
+                    .service(
+                        web::resource("/auth")
+                            .route(web::post().to(handlers::login))
+                            .route(web::delete().to(handlers::logout)),
+                    )
+                    .service(
+                        web::resource("/accounts")
+                            .route(web::post().to(handlers::create_acc))
+                            .route(web::delete().to(handlers::remove_acc)),
+                    ),
+            )
     })
     .bind(("127.0.0.1", 8080))?
     .run()
