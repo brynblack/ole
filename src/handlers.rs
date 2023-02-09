@@ -1,7 +1,4 @@
-use actix_web::{web, HttpResponse};
-use diesel::{PgConnection, RunQueryDsl};
-
-use crate::{models::NewAccount, AppState};
+use actix_web::HttpResponse;
 
 pub async fn login() -> HttpResponse {
     HttpResponse::Ok().body("Logged in!")
@@ -11,19 +8,7 @@ pub async fn logout() -> HttpResponse {
     HttpResponse::Ok().body("Logged out!")
 }
 
-pub async fn create_acc(data: web::Data<AppState>) -> HttpResponse {
-    let new_account = NewAccount {
-        username: "Amy",
-        password: "test123",
-    };
-
-    use crate::schema::accounts;
-
-    diesel::insert_into(accounts::table)
-        .values(&new_account)
-        .get_result::<PgConnection>(data.connection)
-        .unwrap();
-
+pub async fn create_acc() -> HttpResponse {
     HttpResponse::Ok().body("Created Account!")
 }
 
