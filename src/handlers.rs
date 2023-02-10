@@ -46,6 +46,18 @@ pub async fn remove_acc() -> HttpResponse {
     HttpResponse::Ok().body("Deleted Account!")
 }
 
-pub async fn get_accounts() -> HttpResponse {
-    HttpResponse::Ok().body("Here are the registered accounts: ")
+pub async fn get_accounts(data: web::Data<AppData>) -> HttpResponse {
+    use crate::schema::accounts;
+
+    let mut connection = data.db_pool.get().unwrap();
+
+    let rg_accounts = accounts::table.load::<Account>(&mut connection).unwrap();
+
+    HttpResponse::Ok().body(format!(
+        "Here are the registered accounts: {}",
+        rg_accounts
+            .into_iter()
+            .map(|a| { format!("{} ", a.username) })
+            .collect::<String>()
+    ))
 }

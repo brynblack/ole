@@ -12,7 +12,8 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
             .service(
                 web::resource("/accounts")
                     .route(web::post().to(handlers::create_acc))
-                    .route(web::delete().to(handlers::remove_acc)),
+                    .route(web::delete().to(handlers::remove_acc))
+                    .route(web::get().to(handlers::get_accounts)),
             ),
     );
 }
