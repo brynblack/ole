@@ -10,7 +10,8 @@ keywords = ["education"]
 
 [dependencies]
 actix-web = "4.3.0"
-diesel = { version = "2.0.3", features = ["postgres"] }
+diesel = { version = "2.0.3", features = ["postgres", "r2d2"] }
 dotenvy = "0.15.6"
 env_logger = "0.10.0"
 log = "0.4.17"
+serde = { version = "1.0.152", features = ["derive"] }
