@@ -7,10 +7,12 @@ use diesel::{
 };
 use log::info;
 
+/// Global variable storage for the app.
 pub struct AppData {
     pub db_pool: Pool<ConnectionManager<PgConnection>>,
 }
 
+/// Configures the database pool connection.
 pub fn database(cfg: &mut web::ServiceConfig) {
     dotenvy::dotenv().ok();
 

@@ -8,10 +8,12 @@ use crate::{
     models::{Account, NewAccount},
 };
 
+/// Authenticates the user.
 pub async fn login() -> HttpResponse {
     HttpResponse::Ok().body("Logged in!")
 }
 
+/// Revokes authentication for the user.
 pub async fn logout() -> HttpResponse {
     HttpResponse::Ok().body("Logged out!")
 }
@@ -22,6 +24,12 @@ pub struct TempAcc {
     pub password: String,
 }
 
+/// Creates a new account with the given name and password.
+///
+/// The data is recieved through a REST post request, with JSON data
+/// being sent describing the username and password of the new account to be created.
+///
+/// Returns a `HttpResponse` confirming that it was successful.
 pub async fn create_acc(data: web::Data<AppData>, info: web::Json<TempAcc>) -> HttpResponse {
     use crate::schema::accounts;
 
@@ -42,10 +50,12 @@ pub async fn create_acc(data: web::Data<AppData>, info: web::Json<TempAcc>) -> H
     HttpResponse::Ok().body("Created Account!")
 }
 
+/// Deletes an account from the database of registered users.
 pub async fn remove_acc() -> HttpResponse {
     HttpResponse::Ok().body("Deleted Account!")
 }
 
+/// Returns a space separated list of all the currently registured users.
 pub async fn get_accounts(data: web::Data<AppData>) -> HttpResponse {
     use crate::schema::accounts;
 
