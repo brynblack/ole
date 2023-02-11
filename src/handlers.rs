@@ -9,7 +9,7 @@ use jsonwebtoken::{Algorithm, EncodingKey, Header};
 use log::info;
 use serde::{Deserialize, Serialize};
 
-use crate::models::{AccToDelete, TempAcc};
+use crate::models::{AccToDelete, LoginResponse, TempAcc};
 use crate::schema::accounts;
 use crate::{
     database::AppState,
@@ -53,7 +53,9 @@ pub async fn login(data: web::Data<AppState>, info: web::Json<TempAcc>) -> HttpR
         .unwrap();
 
     if info.password == account.password {
-        HttpResponse::Ok().body(create_jwt(&account.username))
+        HttpResponse::Ok().json(web::Json(LoginResponse {
+            token: create_jwt(&account.username),
+        }))
     } else {
         HttpResponse::BadRequest().body("Invalid credentials!")
     }
