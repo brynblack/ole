@@ -8,7 +8,7 @@ use crate::{database::database, routes::routes};
 /// Starts the server.
 pub async fn run() -> std::io::Result<()> {
     let app_port = env::var("APP_PORT")
-        .expect("APP_PORT not set")
+        .expect("APP_PORT must be set")
         .parse()
         .unwrap();
 
