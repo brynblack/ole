@@ -1,10 +1,11 @@
 use actix_web::{web, HttpResponse};
-use diesel::RunQueryDsl;
+use diesel::ExpressionMethods;
+use diesel::{QueryDsl, RunQueryDsl};
 use log::info;
 use serde::Deserialize;
 
 use crate::{
-    database::AppData,
+    database::AppState,
     models::{Account, NewAccount},
 };
 
@@ -30,38 +31,63 @@ pub struct TempAcc {
 /// being sent describing the username and password of the new account to be created.
 ///
 /// Returns a `HttpResponse` confirming that it was successful.
-pub async fn create_acc(data: web::Data<AppData>, info: web::Json<TempAcc>) -> HttpResponse {
+pub async fn create_acc(data: web::Data<AppState>, info: web::Json<TempAcc>) -> HttpResponse {
     use crate::schema::accounts;
 
     let mut connection = data.db_pool.get().unwrap();
+
+    info!("recieved account create request, creating account...");
 
     let acc = NewAccount {
         username: &info.username,
         password: &info.password,
     };
 
-    info!("recieved account create request, creating account...");
-
     diesel::insert_into(accounts::table)
         .values(&acc)
         .get_result::<Account>(&mut connection)
         .expect("error creating new account");
 
+    info!("created account");
+
     HttpResponse::Ok().body("Created Account!")
 }
 
-/// Deletes an account from the database of registered users.
-pub async fn remove_acc() -> HttpResponse {
-    HttpResponse::Ok().body("Deleted Account!")
+#[derive(Deserialize)]
+pub struct AccToDelete {
+    pub id: i32,
 }
 
-/// Returns a space separated list of all the currently registured users.
-pub async fn get_accounts(data: web::Data<AppData>) -> HttpResponse {
+/// Deletes an account from the database of registered users.
+pub async fn remove_acc(data: web::Data<AppState>, info: web::Json<AccToDelete>) -> HttpResponse {
     use crate::schema::accounts;
 
     let mut connection = data.db_pool.get().unwrap();
 
-    let rg_accounts = accounts::table.load::<Account>(&mut connection).unwrap();
+    info!("recieved account delete request, deleting account...");
+
+    diesel::delete(accounts::table.filter(accounts::id.eq(info.id)))
+        .execute(&mut connection)
+        .expect("error deleting account");
+
+    info!("deleted account");
+
+    HttpResponse::Ok().body("Deleted Account!")
+}
+
+/// Returns a space separated list of all the currently registured users.
+pub async fn get_accounts(data: web::Data<AppState>) -> HttpResponse {
+    use crate::schema::accounts;
+
+    let mut connection = data.db_pool.get().unwrap();
+
+    info!("retrieving currently registered accounts...");
+
+    let rg_accounts = accounts::table
+        .load::<Account>(&mut connection)
+        .expect("error retrieving accounts");
+
+    info!("retrieved registered accounts");
 
     HttpResponse::Ok().body(format!(
         "Here are the registered accounts: {}",

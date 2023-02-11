@@ -1,8 +1,8 @@
 use crate::handlers;
-use actix_web::web;
+use actix_web::web::{self, ServiceConfig};
 
 /// Configures the routes for the backend.
-pub fn routes(cfg: &mut web::ServiceConfig) {
+pub fn routes(cfg: &mut ServiceConfig) {
     cfg.service(
         web::scope("/api")
             .service(
