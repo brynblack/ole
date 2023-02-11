@@ -2,8 +2,8 @@ use actix_web::{web, HttpResponse};
 use diesel::ExpressionMethods;
 use diesel::{QueryDsl, RunQueryDsl};
 use log::info;
-use serde::Deserialize;
 
+use crate::models::{AccToDelete, TempAcc};
 use crate::{
     database::AppState,
     models::{Account, NewAccount},
@@ -17,12 +17,6 @@ pub async fn login() -> HttpResponse {
 /// Revokes authentication for the user.
 pub async fn logout() -> HttpResponse {
     HttpResponse::Ok().body("Logged out!")
-}
-
-#[derive(Deserialize)]
-pub struct TempAcc {
-    pub username: String,
-    pub password: String,
 }
 
 /// Creates a new account with the given name and password.
@@ -53,12 +47,12 @@ pub async fn create_acc(data: web::Data<AppState>, info: web::Json<TempAcc>) -> 
     HttpResponse::Ok().body("Created Account!")
 }
 
-#[derive(Deserialize)]
-pub struct AccToDelete {
-    pub id: i32,
-}
-
 /// Deletes an account from the database of registered users.
+///
+/// The data is recieved through a REST post request, with JSON data
+/// being sent describing the id of the account to be deleted.
+///
+/// Returns a `HttpResponse` confirming that it was successful.
 pub async fn remove_acc(data: web::Data<AppState>, info: web::Json<AccToDelete>) -> HttpResponse {
     use crate::schema::accounts;
 
