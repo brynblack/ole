@@ -5,11 +5,14 @@ use diesel::{
     r2d2::{ConnectionManager, Pool},
     PgConnection,
 };
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 use log::info;
 
 pub struct AppState {
     pub db_pool: Pool<ConnectionManager<PgConnection>>,
 }
+
+const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 
 /// Builds the database connection pool.
 pub fn database(cfg: &mut ServiceConfig) {
@@ -22,7 +25,15 @@ pub fn database(cfg: &mut ServiceConfig) {
         .build(manager)
         .expect("failed to build pool");
 
-    info!("connection successful");
+    info!("connection successful, running migrations");
+
+    db_pool
+        .get()
+        .unwrap()
+        .run_pending_migrations(MIGRATIONS)
+        .expect("failed to run migrations");
+
+    info!("migrations successful");
 
     cfg.app_data(Data::new(AppState { db_pool }));
 }
