@@ -1,6 +1,7 @@
-use crate::schema::accounts;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
+
+use crate::schema::accounts;
 
 #[derive(Debug, Queryable)]
 pub struct Account {
@@ -17,17 +18,12 @@ pub struct NewAccount<'a> {
 }
 
 #[derive(Deserialize)]
-pub struct AccToDelete {
-    pub id: i32,
-}
-
-#[derive(Deserialize, Serialize)]
 pub struct TempAcc {
     pub username: String,
     pub password: String,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Serialize)]
 pub struct LoginResponse {
     pub token: String,
 }

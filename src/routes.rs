@@ -8,7 +8,6 @@ pub fn routes(cfg: &mut ServiceConfig) {
             .service(
                 web::resource("/accounts")
                     .route(web::post().to(accounts::create_acc))
-                    .route(web::delete().to(accounts::remove_acc))
                     .route(web::get().to(accounts::get_accounts)),
             )
             .service(

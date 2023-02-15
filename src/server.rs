@@ -8,6 +8,7 @@ use diesel::{
 use log::info;
 
 use crate::{database, routes::routes};
+
 pub struct AppState {
     pub db_pool: Pool<ConnectionManager<PgConnection>>,
 }

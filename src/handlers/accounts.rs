@@ -5,7 +5,7 @@ use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use crate::{
-    models::{AccToDelete, Account, NewAccount, TempAcc},
+    models::{Account, NewAccount, TempAcc},
     schema::accounts,
     server::AppState,
 };
@@ -65,20 +65,4 @@ pub async fn get_accounts(data: web::Data<AppState>) -> HttpResponse {
             .map(|a| { format!("{} ", a.username) })
             .collect::<String>()
     ))
-}
-
-/// Deletes an account.
-pub async fn remove_acc(data: web::Data<AppState>, json: web::Json<AccToDelete>) -> HttpResponse {
-    let id = json.id;
-
-    // Retrieve a database connection from the pool
-    let mut connection = data.db_pool.get().unwrap();
-
-    // Delete the account by the given id
-    diesel::delete(accounts::table.filter(accounts::id.eq(id)))
-        .execute(&mut connection)
-        .expect("error deleting account");
-
-    // Return OK response
-    HttpResponse::Ok().finish()
 }
