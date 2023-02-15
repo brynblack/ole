@@ -6,6 +6,7 @@ use diesel::{
     PgConnection,
 };
 use log::info;
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 use crate::{database, routes::routes};
 
@@ -25,8 +26,14 @@ pub async fn run() -> std::io::Result<()> {
     let db_pool = database::db_connect();
     let app_data = Data::new(AppState { db_pool });
 
+    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+    builder
+        .set_private_key_file("key.pem", SslFiletype::PEM)
+        .unwrap();
+    builder.set_certificate_chain_file("cert.pem").unwrap();
+
     HttpServer::new(move || App::new().app_data(app_data.clone()).configure(routes))
-        .bind(("127.0.0.1", app_port))?
+        .bind_openssl(("127.0.0.1", app_port), builder)?
         .run()
         .await
 }
