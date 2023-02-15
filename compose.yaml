@@ -1,7 +1,7 @@
 services:
   db:
     container_name: postgres
-    image: postgres
+    image: docker.io/postgres
     restart: always
     ports:
       - "5432:5432"
