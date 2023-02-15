@@ -4,7 +4,7 @@ use actix_web::{web, HttpResponse};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 use jsonwebtoken::{EncodingKey, Header};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 use crate::{
     models::{Account, LoginResponse, TempAcc},
@@ -12,7 +12,7 @@ use crate::{
     server::AppState,
 };
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Serialize)]
 struct Claims {
     /// Expiration time (UTC)
     exp: u64,
@@ -20,6 +20,7 @@ struct Claims {
     sub: String,
 }
 
+/// Generates a new JWT.
 pub fn gen_token(sub: String) -> String {
     let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
@@ -36,29 +37,29 @@ pub fn gen_token(sub: String) -> String {
 }
 
 /// Authenticates the user.
-pub async fn login(data: web::Data<AppState>, info: web::Json<TempAcc>) -> HttpResponse {
+pub async fn login(data: web::Data<AppState>, json: web::Json<TempAcc>) -> HttpResponse {
+    // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
+    // Retrieve account from database
     let account = accounts::table
-        .filter(accounts::username.eq(&info.username))
+        .filter(accounts::username.eq(&json.username))
         .first::<Account>(&mut connection)
-        .unwrap();
+        .expect("account not found");
 
+    // Parse the already stored hash
     let parsed_hash = PasswordHash::new(&account.password).unwrap();
 
-    if Argon2::default()
-        .verify_password(info.password.as_bytes(), &parsed_hash)
-        .is_ok()
-    {
-        HttpResponse::Ok().json(web::Json(LoginResponse {
+    // Verify if the given password matches the hash
+    match Argon2::default().verify_password(json.password.as_bytes(), &parsed_hash) {
+        Ok(_) => HttpResponse::Ok().json(web::Json(LoginResponse {
             token: gen_token(account.username),
-        }))
-    } else {
-        HttpResponse::BadRequest().body("Invalid credentials!")
+        })),
+        Err(_) => HttpResponse::BadRequest().finish(),
     }
 }
 
 /// Revokes authentication for the user.
 pub async fn logout() -> HttpResponse {
-    HttpResponse::Ok().body("Logged out!")
+    HttpResponse::Ok().finish()
 }

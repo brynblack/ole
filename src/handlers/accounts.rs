@@ -1,3 +1,5 @@
+use std::env;
+
 use actix_web::{web, HttpResponse};
 use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
@@ -8,54 +10,54 @@ use crate::{
     server::AppState,
 };
 
-use log::info;
+/// Creates a new account.
+pub async fn create_acc(data: web::Data<AppState>, json: web::Json<TempAcc>) -> HttpResponse {
+    let username = &json.username;
+    let password = &json.password;
 
-/// Creates a new account with the given name and password.
-///
-/// The data is recieved through a REST post request, with JSON data
-/// being sent describing the username and password of the new account to be created.
-///
-/// Returns a `HttpResponse` confirming that it was successful.
-pub async fn create_acc(data: web::Data<AppState>, info: web::Json<TempAcc>) -> HttpResponse {
+    // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
-    info!("recieved account create request, creating account...");
+    // Check if an account already exists with the given username
+    accounts::table
+        .filter(accounts::username.eq(username))
+        .first::<Account>(&mut connection)
+        .expect_err("account already exists");
 
-    let salt = SaltString::new("meowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeow").unwrap();
+    // Hash password
+    let salt = env::var("PWD_SALT").expect("PWD_SALT must be set");
+    let salt = SaltString::new(&salt).unwrap();
     let argon2 = Argon2::default();
 
-    let hash = argon2
-        .hash_password(info.password.as_bytes(), &salt)
+    let password = &argon2
+        .hash_password(password.as_bytes(), &salt)
         .unwrap()
         .to_string();
 
-    let acc = NewAccount {
-        username: &info.username,
-        password: &hash,
-    };
+    // Create new account
+    let acc = NewAccount { username, password };
 
+    // Insert account into table
     diesel::insert_into(accounts::table)
         .values(&acc)
         .get_result::<Account>(&mut connection)
         .expect("error creating new account");
 
-    info!("created account");
-
-    HttpResponse::Ok().body("Created Account!")
+    // Return OK response
+    HttpResponse::Ok().finish()
 }
 
-/// Returns a space separated list of all the currently registured users.
+/// Returns a space separated list of all the currently registered users.
 pub async fn get_accounts(data: web::Data<AppState>) -> HttpResponse {
+    // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
-    info!("retrieving currently registered accounts...");
-
+    // Retrieve a vector containing all of the accounts
     let rg_accounts = accounts::table
         .load::<Account>(&mut connection)
         .expect("error retrieving accounts");
 
-    info!("retrieved registered accounts");
-
+    // Return OK response containing a list of the accounts
     HttpResponse::Ok().body(format!(
         "Here are the registered accounts: {}",
         rg_accounts
@@ -65,22 +67,18 @@ pub async fn get_accounts(data: web::Data<AppState>) -> HttpResponse {
     ))
 }
 
-/// Deletes an account from the database of registered users.
-///
-/// The data is recieved through a REST post request, with JSON data
-/// being sent describing the id of the account to be deleted.
-///
-/// Returns a `HttpResponse` confirming that it was successful.
-pub async fn remove_acc(data: web::Data<AppState>, info: web::Json<AccToDelete>) -> HttpResponse {
+/// Deletes an account.
+pub async fn remove_acc(data: web::Data<AppState>, json: web::Json<AccToDelete>) -> HttpResponse {
+    let id = json.id;
+
+    // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
-    info!("recieved account delete request, deleting account...");
-
-    diesel::delete(accounts::table.filter(accounts::id.eq(info.id)))
+    // Delete the account by the given id
+    diesel::delete(accounts::table.filter(accounts::id.eq(id)))
         .execute(&mut connection)
         .expect("error deleting account");
 
-    info!("deleted account");
-
-    HttpResponse::Ok().body("Deleted Account!")
+    // Return OK response
+    HttpResponse::Ok().finish()
 }

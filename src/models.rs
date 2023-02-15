@@ -2,7 +2,7 @@ use crate::schema::accounts;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable)]
+#[derive(Debug, Queryable)]
 pub struct Account {
     pub id: i32,
     pub username: String,
