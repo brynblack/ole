@@ -1,20 +1,20 @@
-use crate::handlers;
+use crate::handlers::{accounts, auth};
 use actix_web::web::{self, ServiceConfig};
 
-/// Configures the routes for the backend.
+/// Registers the API routes.
 pub fn routes(cfg: &mut ServiceConfig) {
     cfg.service(
         web::scope("/api")
             .service(
-                web::resource("/auth")
-                    .route(web::post().to(handlers::login))
-                    .route(web::delete().to(handlers::logout)),
+                web::resource("/accounts")
+                    .route(web::post().to(accounts::create_acc))
+                    .route(web::delete().to(accounts::remove_acc))
+                    .route(web::get().to(accounts::get_accounts)),
             )
             .service(
-                web::resource("/accounts")
-                    .route(web::post().to(handlers::create_acc))
-                    .route(web::delete().to(handlers::remove_acc))
-                    .route(web::get().to(handlers::get_accounts)),
+                web::resource("/auth")
+                    .route(web::post().to(auth::login))
+                    .route(web::delete().to(auth::logout)),
             ),
     );
 }

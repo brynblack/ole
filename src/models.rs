@@ -21,13 +21,13 @@ pub struct AccToDelete {
     pub id: i32,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct TempAcc {
     pub username: String,
     pub password: String,
 }
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct LoginResponse {
     pub token: String,
 }

@@ -7,12 +7,11 @@ use diesel::{
 };
 use log::info;
 
-/// Global variable storage for the app.
 pub struct AppState {
     pub db_pool: Pool<ConnectionManager<PgConnection>>,
 }
 
-/// Configures the database pool connection.
+/// Builds the database connection pool.
 pub fn database(cfg: &mut ServiceConfig) {
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
@@ -21,7 +20,7 @@ pub fn database(cfg: &mut ServiceConfig) {
     let manager = ConnectionManager::<PgConnection>::new(database_url);
     let db_pool = Pool::builder()
         .build(manager)
-        .expect("Failed to build pool!");
+        .expect("failed to build pool");
 
     info!("connection successful");
 
