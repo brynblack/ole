@@ -1,6 +1,7 @@
 use std::env;
 
 use actix_web::{web, HttpResponse};
+use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 use jsonwebtoken::{EncodingKey, Header};
 use serde::{Deserialize, Serialize};
@@ -43,7 +44,12 @@ pub async fn login(data: web::Data<AppState>, info: web::Json<TempAcc>) -> HttpR
         .first::<Account>(&mut connection)
         .unwrap();
 
-    if info.password == account.password {
+    let parsed_hash = PasswordHash::new(&account.password).unwrap();
+
+    if Argon2::default()
+        .verify_password(info.password.as_bytes(), &parsed_hash)
+        .is_ok()
+    {
         HttpResponse::Ok().json(web::Json(LoginResponse {
             token: gen_token(account.username),
         }))

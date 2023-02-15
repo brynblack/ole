@@ -1,4 +1,5 @@
 use actix_web::{web, HttpResponse};
+use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use crate::{
@@ -20,9 +21,17 @@ pub async fn create_acc(data: web::Data<AppState>, info: web::Json<TempAcc>) -> 
 
     info!("recieved account create request, creating account...");
 
+    let salt = SaltString::new("meowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeow").unwrap();
+    let argon2 = Argon2::default();
+
+    let hash = argon2
+        .hash_password(info.password.as_bytes(), &salt)
+        .unwrap()
+        .to_string();
+
     let acc = NewAccount {
         username: &info.username,
-        password: &info.password,
+        password: &hash,
     };
 
     diesel::insert_into(accounts::table)
