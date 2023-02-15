@@ -6,9 +6,9 @@ use jsonwebtoken::{EncodingKey, Header};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    database::AppState,
     models::{Account, LoginResponse, TempAcc},
     schema::accounts,
+    server::AppState,
 };
 
 #[derive(Debug, Deserialize, Serialize)]

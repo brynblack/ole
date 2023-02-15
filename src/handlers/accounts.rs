@@ -2,9 +2,9 @@ use actix_web::{web, HttpResponse};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use crate::{
-    database::AppState,
     models::{AccToDelete, Account, NewAccount, TempAcc},
     schema::accounts,
+    server::AppState,
 };
 
 use log::info;
