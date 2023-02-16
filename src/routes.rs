@@ -1,4 +1,5 @@
 use crate::handlers::{accounts, auth};
+use actix_files::Files;
 use actix_web::web::{self, ServiceConfig};
 
 /// Registers the API routes.
@@ -15,5 +16,6 @@ pub fn routes(cfg: &mut ServiceConfig) {
                     .route(web::post().to(auth::login))
                     .route(web::delete().to(auth::logout)),
             ),
-    );
+    )
+    .service(Files::new("/", "./static/").index_file("index.html"));
 }
