@@ -5,7 +5,7 @@ use crate::handlers::{accounts, auth};
 
 /// Registers the API routes.
 pub fn routes(cfg: &mut ServiceConfig) {
-    cfg.service(web::scope("/").service(Files::new("/", "./static").index_file("index.html")))
+    cfg.service(Files::new("/static", "./static").index_file("index.html"))
         .service(
             web::scope("/api")
                 .service(

@@ -37,15 +37,18 @@ pub fn gen_token(sub: String) -> String {
 }
 
 /// Authenticates the user.
-pub async fn login(data: web::Data<AppState>, json: web::Json<TempAcc>) -> HttpResponse {
+pub async fn login(data: web::Data<AppState>, json: web::Form<TempAcc>) -> HttpResponse {
     // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
     // Retrieve account from database
-    let account = accounts::table
+    let account = match accounts::table
         .filter(accounts::username.eq(&json.username))
         .first::<Account>(&mut connection)
-        .expect("account not found");
+    {
+        Ok(account) => account,
+        Err(_) => return HttpResponse::NotFound().finish(),
+    };
 
     // Parse the already stored hash
     let parsed_hash = PasswordHash::new(&account.password).unwrap();
