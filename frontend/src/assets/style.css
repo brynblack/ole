@@ -1,0 +1,40 @@
+:root {
+  --bg-color: black;
+  --fg-color: white;
+
+  --bg-color-alt: rgba(255, 255, 255, 0.1);
+
+  --accent-color: purple;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  display: grid;
+  font-family: "Lato";
+  height: 100vh;
+  margin: 0;
+  place-items: center;
+  width: 100vw;
+}
+
+h1 {
+  margin: 0;
+}
+
+.login-box {
+  background-color: var(--bg-color-alt);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.login-box > input {
+  border: 2px solid var(--accent-color);
+  border-radius: 0.5rem;
+  background-color: var(--bg-color-alt);
+  color: var(--fg-color);
+  padding: 0.5rem;
+}
