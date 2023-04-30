@@ -1,0 +1,73 @@
+:root {
+  --accent-color: #222222;
+  --placeholder-color: lightgray;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap');
+
+body {
+  background-color: black;
+  display: grid;
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+  place-content: center;
+  font-family: 'Lato', sans-serif;
+  color: white;
+}
+
+.login-box {
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 1.5rem 1rem;
+  gap: 1.75rem;
+}
+
+.login-box > span {
+  font-weight: 900;
+}
+
+.login-box input {
+  background-color: transparent;
+  border: 2px solid var(--accent-color);
+  border-radius: 6px;
+  color: white;
+  padding: 0.5rem;
+}
+
+.login-box input:focus {
+  border-color: #283c81;
+  outline: none;
+}
+
+.login-box input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.login-box .password {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-box .password > a {
+  color: white;
+  font-size: 0.5em;
+  font-weight: 900;
+}
+
+.submit-button {
+  background-color: #283c81;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 0.3rem;
+  font-weight: 900;
+}
+
+.submit-button:hover {
+  background-color: #141f41;
+  cursor: pointer;
+}

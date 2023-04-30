@@ -1,4 +1,3 @@
-use actix_files::Files;
 use actix_web::web::{self, ServiceConfig};
 
 use crate::handlers::{accounts, auth};
