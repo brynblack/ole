@@ -1,29 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap');
 
 :root {
-  --accent-color: #222222;
+  --bg-color: black;
+  --bg-alt-color: #222222;
+
+  --fg-color: white;
+
+  --accent-color: #283c81;
+  --acc-alt-color: #141f41;
+
   --placeholder-color: lightgray;
+
+  --font: 'Lato', sans-serif;
 }
 
 body {
-  background-color: black;
-  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  font-family: var(--font);
   margin: 0;
-  min-width: 100vw;
-  font-family: 'Lato', sans-serif;
-  color: white;
+}
+
+.login {
   display: grid;
   place-content: center;
-  font-weight: 900;
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .login-box {
-  border: 2px solid var(--accent-color);
+  border: 2px solid var(--bg-alt-color);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 1.5rem 1rem;
   gap: 1.75rem;
+  padding: 1rem 1rem 1.5rem 1rem;
 }
 
 .login-box > span {
@@ -32,7 +44,7 @@ body {
 
 .login-box input {
   background-color: transparent;
-  border: 2px solid var(--accent-color);
+  border: 2px solid var(--bg-alt-color);
   border-radius: 6px;
   color: white;
   padding: 0.5rem;
@@ -40,7 +52,7 @@ body {
 }
 
 .login-box input:focus {
-  border-color: #283c81;
+  border-color: var(--accent-color);
   outline: none;
 }
 
@@ -61,11 +73,11 @@ body {
 .entry > a {
   color: white;
   font-size: 0.5em;
-  font-weight: inherit;
+  font-weight: 900;
 }
 
 .submit-button {
-  background-color: #283c81;
+  background-color: var(--accent-color);
   border: none;
   border-radius: 4px;
   color: white;
@@ -77,9 +89,63 @@ body {
 }
 
 .submit-button:focus {
-  outline: solid #283c81;
+  outline: solid var(--accent-color);
 }
 
 .submit-button:hover, .submit-button:focus {
-  background-color: #141f41;
+  background-color: var(--acc-alt-color);
+}
+
+// m
+.home {
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.courses {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 900;
+  height: 10rem;
+}
+
+.courses > * {
+  background-color: #141414;
+  border-radius: 8px;
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  padding: 0.5rem;
+  transition-duration: 250ms;
+  cursor: pointer;
+}
+
+.courses > *:hover {
+  transform: scale(1.025);
+}
+
+#sdd {
+  background-image: url("https://cdn-images-1.medium.com/v2/resize:fit:2600/1*JT6Yw84iWanGLU2wTfKIIg.jpeg");
+}
+
+#ipt {
+  background-image: url("https://www.databankimx.com/wp-content/uploads/2016/01/Database-Services-page-banner.jpg");
+}
+
+#coc {
+  background-image: url("https://theaxiom.ca/wp-content/uploads/2015/03/muchbetter.jpg");
+}
+
+#ist {
+  background-image: url("https://www.myhtptech.com/wp-content/uploads/2020/07/businessIntelligenceservices.jpg");
 }

@@ -5,11 +5,6 @@ fn main() {
     yew::Renderer::<App>::new().render();
 }
 
-#[derive(PartialEq, Properties)]
-struct Properties {
-    token: Option<String>,
-}
-
 #[derive(Clone, PartialEq, Routable)]
 enum Route {
     #[at("/")]
@@ -22,51 +17,64 @@ enum Route {
 }
 
 #[function_component(Home)]
-fn home(props: &Properties) -> Html {
-    let token = match props.token.clone() {
-        Some(token) => token,
-        None => {
-            return html! {
-                <Redirect<Route> to={Route::Login}/>
-            }
-        }
-    };
-
+fn home() -> Html {
     html! {
         <>
-            <div>{ token }</div>
+            <div class="home">
+                <div class="dashboard">
+                    <span>{ "Welcome back!" }</span>
+                    <div class="courses">
+                        <span id="sdd">{ "Sofware Design Development" }</span>
+                        <span id="ipt">{ "Information Processes Technology" }</span>
+                        <span id="coc">{ "Coding Club" }</span>
+                        <span id="ist">{ "Information Software Technology" }</span>
+                    </div>
+                </div>
+            </div>
         </>
     }
 }
 
 #[function_component(Login)]
 fn login() -> Html {
+    let navigator = use_navigator().unwrap();
+    let onsubmit = Callback::from(move |_| navigator.push(&Route::Home));
+
     html! {
         <>
-            <form class="login-box" action="https://localhost:8081/api/auth" method="post">
-                <span>{ "Sign In" }</span>
-                <div class="entry">
-                    <label for="username">{ "Username" }</label>
-                    <input id="username" name="username" type="text"/>
-                </div>
-                <div class="entry">
-                    <label for="password">{ "Password" }</label>
-                    <input id="password" name="password" type="password"/>
-                    <a href="">{ "Forgot Password?" }</a>
-                </div>
-                <button class="submit-button">{ "Sign In" }</button>
-            </form>
+            <div class="login">
+                <form class="login-box" onsubmit={ onsubmit }>
+                    <span>{ "Sign In" }</span>
+                    <div class="entry">
+                        <label for="username">{ "Username" }</label>
+                        <input id="username" name="username" type="text"/>
+                    </div>
+                    <div class="entry">
+                        <label for="password">{ "Password" }</label>
+                        <input id="password" name="password" type="password"/>
+                        <a href="">{ "Forgot Password?" }</a>
+                    </div>
+                    <button class="submit-button">{ "Sign In" }</button>
+                </form>
+            </div>
+        </>
+    }
+}
+
+#[function_component(NotFound)]
+fn not_found() -> Html {
+    html! {
+        <>
+            <h1>{ "The page you were looking for could not be found :(" }</h1>
         </>
     }
 }
 
 fn switch(routes: Route) -> Html {
-    let token = Some("meow".to_string());
-    // let token: Option<String> = None;
     match routes {
-        Route::Home => html! { <Home token={ token }/> },
+        Route::Home => html! { <Home/> },
         Route::Login => html! { <Login/> },
-        Route::NotFound => html! { <h1>{ "404" }</h1> },
+        Route::NotFound => html! { <NotFound/> },
     }
 }
 
