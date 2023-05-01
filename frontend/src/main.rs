@@ -10,9 +10,13 @@ fn app() -> Html {
         <>
             <form class="login-box" action="https://localhost:8081/api/auth" method="post">
                 <span>{ "Sign In" }</span>
-                <input placeholder="Username" name="username" type="text"/>
-                <div class="password">
-                    <input placeholder="Password" name="password" type="password"/>
+                <div class="entry">
+                    <label for="username">{ "Username" }</label>
+                    <input id="username" name="username" type="text"/>
+                </div>
+                <div class="entry">
+                    <label for="password">{ "Password" }</label>
+                    <input id="password" name="password" type="password"/>
                     <a href="">{ "Forgot Password?" }</a>
                 </div>
                 <button class="submit-button">{ "Sign In" }</button>

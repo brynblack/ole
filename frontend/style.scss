@@ -14,6 +14,8 @@ body {
   place-content: center;
   font-family: 'Lato', sans-serif;
   color: white;
+
+  font-weight: 900;
 }
 
 .login-box {
@@ -47,16 +49,20 @@ body {
   color: var(--placeholder-color);
 }
 
-.login-box .password {
+.entry {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.login-box .password > a {
+.entry > label {
+  font-weight: 400;
+}
+
+.entry > a {
   color: white;
   font-size: 0.5em;
-  font-weight: 900;
+  font-weight: inherit;
 }
 
 .submit-button {
@@ -65,7 +71,7 @@ body {
   border-radius: 4px;
   color: white;
   padding: 0.3rem;
-  font-weight: 900;
+  font-weight: inherit;
   cursor: pointer;
   transition-duration: 100ms;
   transition-property: background-color;
