@@ -1,23 +1,22 @@
-use dioxus::prelude::*;
+use yew::prelude::*;
 
 fn main() {
-    dioxus_web::launch(app);
+    yew::Renderer::<App>::new().render();
 }
 
-fn app(cx: Scope) -> Element {
-    cx.render(rsx! {
-        form {
-            action: "https://localhost:8081/api/auth",
-            class: "login-box",
-            method: "post",
-            span { "Sign In" }
-            input { r#type: "text", id: "username", name: "username", placeholder: "Username" }
-            div {
-                class: "password",
-                input { r#type: "password", id: "password", name: "password", placeholder: "Password" }
-                a { href: "", "Forgot Password?" }
-            }
-            button { class: "submit-button", r#type: "submit", "Log in" }
-        }
-    })
+#[function_component(App)]
+fn app() -> Html {
+    html! {
+        <>
+            <form class="login-box" action="https://localhost:8081/api/auth" method="post">
+                <span>{ "Sign In" }</span>
+                <input placeholder="Username" name="username" type="text"/>
+                <div class="password">
+                    <input placeholder="Password" name="password" type="password"/>
+                    <a href="">{ "Forgot Password?" }</a>
+                </div>
+                <button class="submit-button">{ "Sign In" }</button>
+            </form>
+        </>
+    }
 }
