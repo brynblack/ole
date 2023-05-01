@@ -20,7 +20,7 @@ To install and set up a OLE server, you can clone the GitHub repository and foll
 ### Dependencies
 - Rust (MSRV should be latest for security)
 - Podman or Docker and their compose variant
-- Dioxus CLI
+- Trunk
 
 ### Install on Linux
 
@@ -34,7 +34,7 @@ cargo run
 ```
 Create another terminal and navigate to the `frontend` module. From there, you can run the following command to build and start the frontend server.
 ```
-dioxus serve
+trunk serve --open
 ```
 Now, you can navigate to http://localhost:8080 to access the website!
 
