@@ -65,7 +65,9 @@ fn login() -> Html {
 fn not_found() -> Html {
     html! {
         <>
-            <h1>{ "The page you were looking for could not be found :(" }</h1>
+            <div class="notfound">
+                <h1>{ "The page you were looking for could not be found :(" }</h1>
+            </div>
         </>
     }
 }
