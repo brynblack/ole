@@ -5,6 +5,11 @@ fn main() {
     yew::Renderer::<App>::new().render();
 }
 
+#[derive(PartialEq, Properties)]
+struct Properties {
+    token: Option<String>,
+}
+
 #[derive(Clone, PartialEq, Routable)]
 enum Route {
     #[at("/")]
@@ -17,9 +22,9 @@ enum Route {
 }
 
 #[function_component(Home)]
-fn home() -> Html {
-    let user = match Some("meow") {
-        Some(user) => user,
+fn home(props: &Properties) -> Html {
+    let token = match props.token.clone() {
+        Some(token) => token,
         None => {
             return html! {
                 <Redirect<Route> to={Route::Login}/>
@@ -29,7 +34,7 @@ fn home() -> Html {
 
     html! {
         <>
-            <div>{ user }</div>
+            <div>{ token }</div>
         </>
     }
 }
@@ -56,8 +61,10 @@ fn login() -> Html {
 }
 
 fn switch(routes: Route) -> Html {
+    let token = Some("meow".to_string());
+    // let token: Option<String> = None;
     match routes {
-        Route::Home => html! { <Home/> },
+        Route::Home => html! { <Home token={ token }/> },
         Route::Login => html! { <Login/> },
         Route::NotFound => html! { <h1>{ "404" }</h1> },
     }
