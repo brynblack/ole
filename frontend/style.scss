@@ -183,3 +183,32 @@ h4 {
   min-height: 100vh;
   min-width: 100vw;
 }
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .ham {
+    width: 1.2rem;
+    height: 1.2rem;
+    filter: invert(100%);
+    cursor: pointer;
+  }
+
+  .pfp {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+  }
+
+  .pfp {
+    transition-duration: 100ms;
+  }
+
+  .pfp:hover {
+    filter: brightness(50%);
+  }
+}

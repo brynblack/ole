@@ -1,5 +1,6 @@
 # ole
 A fast, scalable online learning platform.
+![](https://img.shields.io/github/issues/brynblack/ole?style=flat-square) ![](https://img.shields.io/github/last-commit/brynblack/ole?style=flat-square) ![](https://img.shields.io/github/license/brynblack/ole?style=flat-square)
 
 ## What is OLE?
 OLE (Online Learning Environment) is a modern education platform written in Rust. It is designed with high-performance in mind and can be deployed easily to any device.

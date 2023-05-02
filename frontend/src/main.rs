@@ -18,11 +18,27 @@ enum Route {
 
 #[function_component(Home)]
 fn home() -> Html {
+    let token = Some("".to_string());
+    // let token: Option<String> = None;
+
+    match token {
+        Some(_) => {}
+        None => {
+            return html! {
+                <Redirect<Route> to={Route::Login}/>
+            }
+        }
+    };
+
     html! {
         <>
             <div class="home">
                 <div class="dashboard">
-                    <h4>{ "Welcome back!" }</h4>
+                    <nav>
+                        <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"/>
+                        <img class="pfp" alt="Profile" src="https://avatars.githubusercontent.com/u/49110391?v=4"/>
+                    </nav>
+                    <h4>{ "Courses" }</h4>
                     <div class="courses">
                         <div id="sdd">
                             <div></div>
