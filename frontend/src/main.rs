@@ -22,12 +22,24 @@ fn home() -> Html {
         <>
             <div class="home">
                 <div class="dashboard">
-                    <span>{ "Welcome back!" }</span>
+                    <h4>{ "Welcome back!" }</h4>
                     <div class="courses">
-                        <span id="sdd">{ "Sofware Design Development" }</span>
-                        <span id="ipt">{ "Information Processes Technology" }</span>
-                        <span id="coc">{ "Coding Club" }</span>
-                        <span id="ist">{ "Information Software Technology" }</span>
+                        <div id="sdd">
+                            <div></div>
+                            <h3>{ "Sofware Design Development" }</h3>
+                        </div>
+                        <div id="ipt">
+                            <div></div>
+                            <h3>{ "Information Processes Technology" }</h3>
+                        </div>
+                        <div id="coc">
+                            <div></div>
+                            <h3>{ "Coding Club" }</h3>
+                        </div>
+                        <div id="ist">
+                            <div></div>
+                            <h3>{ "Information Software Technology" }</h3>
+                        </div>
                     </div>
                 </div>
             </div>
