@@ -40,26 +40,31 @@ fn home() -> Html {
                     </nav>
                     <h4>{ "Courses" }</h4>
                     <div class="courses">
-                        <div id="sdd">
-                            <div></div>
-                            <h3>{ "Sofware Design Development" }</h3>
-                        </div>
-                        <div id="ipt">
-                            <div></div>
-                            <h3>{ "Information Processes Technology" }</h3>
-                        </div>
-                        <div id="coc">
-                            <div></div>
-                            <h3>{ "Coding Club" }</h3>
-                        </div>
-                        <div id="ist">
-                            <div></div>
-                            <h3>{ "Information Software Technology" }</h3>
-                        </div>
+                        <CourseCard id="sdd" name="Software Design Development" img="https://www.newsmaritime.com/wp-content/uploads/2016/06/Check-out-the-new-and-functional-programming-language.jpg"/>
+                        <CourseCard id="ipt" name="Information Processes Technology" img="https://www.databankimx.com/wp-content/uploads/2016/01/Database-Services-page-banner.jpg"/>
+                        <CourseCard id="coc" name="Coding Club" img="https://theaxiom.ca/wp-content/uploads/2015/03/muchbetter.jpg"/>
+                        <CourseCard id="ist" name="Information Services Technology" img="https://www.myhtptech.com/wp-content/uploads/2020/07/businessIntelligenceservices.jpg"/>
                     </div>
                 </div>
             </div>
         </>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+struct CardProps {
+    id: String,
+    name: String,
+    img: String,
+}
+
+#[function_component(CourseCard)]
+fn course_card(props: &CardProps) -> Html {
+    html! {
+        <div id={ props.id.clone() } style={ "background-image: url(\"".to_owned() + &props.img + "\");" }>
+            <div></div>
+            <h3>{ props.name.clone() }</h3>
+        </div>
     }
 }
 

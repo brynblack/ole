@@ -116,7 +116,6 @@ body {
   gap: 12px;
   font-size: 12px;
   font-weight: 900;
-  height: 10rem;
 }
 
 h3, h4 {
@@ -138,6 +137,7 @@ h4 {
   transition-duration: 250ms;
   cursor: pointer;
   background-size: cover;
+  height: 5rem;
 
   h3 {
     z-index: 2;
@@ -158,22 +158,6 @@ h4 {
 
 .courses > *:hover {
   transform: scale(1.025);
-}
-
-#sdd {
-  background-image: url("https://www.newsmaritime.com/wp-content/uploads/2016/06/Check-out-the-new-and-functional-programming-language.jpg");
-}
-
-#ipt {
-  background-image: url("https://www.databankimx.com/wp-content/uploads/2016/01/Database-Services-page-banner.jpg");
-}
-
-#coc {
-  background-image: url("https://theaxiom.ca/wp-content/uploads/2015/03/muchbetter.jpg");
-}
-
-#ist {
-  background-image: url("https://www.myhtptech.com/wp-content/uploads/2020/07/businessIntelligenceservices.jpg");
 }
 
 .notfound {
