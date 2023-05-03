@@ -39,7 +39,10 @@ fn home() -> Html {
         <div class="home-page">
             <div class="dashboard">
                 <nav>
-                    <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" />
+                    <div>
+                        <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" />
+                        <h1>{ "Online Learning Environment" }</h1>
+                    </div>
                     <img class="pfp" alt="Profile" src="https://avatars.githubusercontent.com/u/49110391?v=4" />
                 </nav>
                 <h4>{ "Courses" }</h4>
