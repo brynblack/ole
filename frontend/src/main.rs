@@ -39,15 +39,15 @@ fn home() -> Html {
         <div class="home-page">
             <div class="dashboard">
                 <nav>
-                    <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"/>
-                    <img class="pfp" alt="Profile" src="https://avatars.githubusercontent.com/u/49110391?v=4"/>
+                    <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" />
+                    <img class="pfp" alt="Profile" src="https://avatars.githubusercontent.com/u/49110391?v=4" />
                 </nav>
                 <h4>{ "Courses" }</h4>
                 <div class="courses">
-                    <CourseCard id="sdd" name="Software Design Development" img="https://www.newsmaritime.com/wp-content/uploads/2016/06/Check-out-the-new-and-functional-programming-language.jpg"/>
-                    <CourseCard id="ipt" name="Information Processes Technology" img="https://www.databankimx.com/wp-content/uploads/2016/01/Database-Services-page-banner.jpg"/>
-                    <CourseCard id="coc" name="Coding Club" img="https://theaxiom.ca/wp-content/uploads/2015/03/muchbetter.jpg"/>
-                    <CourseCard id="ist" name="Information Services Technology" img="https://www.myhtptech.com/wp-content/uploads/2020/07/businessIntelligenceservices.jpg"/>
+                    <CourseCard id="sdd" name="Software Design Development" img="https://www.newsmaritime.com/wp-content/uploads/2016/06/Check-out-the-new-and-functional-programming-language.jpg" />
+                    <CourseCard id="ipt" name="Information Processes Technology" img="https://www.databankimx.com/wp-content/uploads/2016/01/Database-Services-page-banner.jpg" />
+                    <CourseCard id="coc" name="Coding Club" img="https://theaxiom.ca/wp-content/uploads/2015/03/muchbetter.jpg" />
+                    <CourseCard id="ist" name="Information Services Technology" img="https://www.myhtptech.com/wp-content/uploads/2020/07/businessIntelligenceservices.jpg" />
                 </div>
             </div>
         </div>
@@ -62,14 +62,14 @@ fn login() -> Html {
     html! {
         <div class="login-page">
             <form class="login-box" onsubmit={ onsubmit }>
-                <span>{ "Sign In" }</span>
+                <h1>{ "Sign In" }</h1>
                 <div class="entry">
                     <label for="username">{ "Username" }</label>
-                    <input id="username" name="username" type="text"/>
+                    <input id="username" name="username" type="text" />
                 </div>
                 <div class="entry">
                     <label for="password">{ "Password" }</label>
-                    <input id="password" name="password" type="password"/>
+                    <input id="password" name="password" type="password" />
                     <a href="">{ "Forgot Password?" }</a>
                 </div>
                 <button class="submit-button">{ "Sign In" }</button>
