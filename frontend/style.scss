@@ -20,6 +20,46 @@ body {
   font-family: var(--font);
 }
 
+nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
+  div, a {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+
+    h1 {
+      font-weight: 900;
+    }
+  }
+
+  .ham {
+    width: 1.2rem;
+    height: 1.2rem;
+    filter: invert(100%);
+    cursor: pointer;
+  }
+
+  .pfp {
+    border-radius: 50%;
+    cursor: pointer;
+    height: 1.5rem;
+    object-fit: cover;
+    transition-duration: 100ms;
+    width: 1.5rem;
+  }
+
+  .pfp:hover {
+    filter: brightness(50%);
+  }
+}
+
+p {
+  font-size: 0.75em;
+}
+
 .login-page {
   display: grid;
   min-height: 100vh;
@@ -96,48 +136,12 @@ body {
     gap: 1rem;
     padding: 1rem;
 
-    nav {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-
-      div {
-        align-items: center;
-        display: flex;
-        gap: 0.5rem;
-
-        h1 {
-          font-weight: 900;
-        }
-      }
-
-      .ham {
-        width: 1.2rem;
-        height: 1.2rem;
-        filter: invert(100%);
-        cursor: pointer;
-      }
-
-      .pfp {
-        border-radius: 50%;
-        cursor: pointer;
-        height: 1.5rem;
-        object-fit: cover;
-        transition-duration: 100ms;
-        width: 1.5rem;
-      }
-
-      .pfp:hover {
-        filter: brightness(50%);
-      }
-    }
-
     .courses {
       display: grid;
       gap: 12px;
       grid-template-columns: auto auto;
 
-      * {
+      a * {
         position: relative;
         background-size: cover;
         border-radius: 8px;
@@ -170,9 +174,35 @@ body {
         }
       }
 
-      > *:hover {
+      a > *:hover {
         transform: scale(1.025);
       }
+    }
+  }
+}
+
+.course-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem;
+
+  h1 {
+    font-weight: 900;
+  }
+
+  .lessons {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    overflow: scroll;
+
+    > * {
+      background-color: #141414;
+      border-radius: 12px;
+      height: 5rem;
+      flex-shrink: 0;
+      width: 10rem;
     }
   }
 }
