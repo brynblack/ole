@@ -25,42 +25,40 @@ nav {
   display: flex;
   justify-content: space-between;
 
-  div, a {
+  div {
     align-items: center;
     display: flex;
     gap: 0.5rem;
 
     h1 {
+      font-size: 1.25rem;
       font-weight: 900;
     }
   }
 
   .ham {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     filter: invert(100%);
     cursor: pointer;
   }
 
   .pfp {
+    display: flex;
     transition-duration: 100ms;
   }
 
   .pfp > img {
     border-radius: 50%;
     cursor: pointer;
-    height: 1.5rem;
+    height: 2.5rem;
     object-fit: cover;
-    width: 1.5rem;
+    width: 2.5rem;
   }
 
   .pfp:hover, .pfp:focus {
     filter: brightness(50%);
   }
-}
-
-p {
-  font-size: 0.75em;
 }
 
 .login-page {
@@ -151,9 +149,9 @@ p {
         cursor: pointer;
         display: flex;
         flex-direction: column;
-        height: 5rem;
+        height: 7rem;
         justify-content: end;
-        padding: 0.5rem;
+        padding: 0.75rem;
 
         div {
           background: linear-gradient(to top, rgb(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
@@ -167,7 +165,7 @@ p {
         }
 
         h3 {
-          font-size: 12px;
+          font-size: 1rem;
           font-weight: 900;
           left: 0;
           position: absolute;
@@ -196,7 +194,7 @@ p {
   .metadata {
     display: flex;
     gap: 1rem;
-    height: 10rem;
+    height: 15rem;
 
     > * {
       flex: 50%;
@@ -213,11 +211,15 @@ p {
     overflow: scroll;
 
     > * {
+      aspect-ratio: 2 / 1;
       background-color: #141414;
-      border-radius: 12px;
-      height: 5rem;
-      flex-shrink: 0;
-      width: 10rem;
+      border-radius: 1rem;
+      height: 10rem;
+      transition-duration: 250ms;
+    }
+
+    > *:hover {
+        transform: scale(1.025);
     }
   }
 }
