@@ -43,15 +43,18 @@ nav {
   }
 
   .pfp {
+    transition-duration: 100ms;
+  }
+
+  .pfp > img {
     border-radius: 50%;
     cursor: pointer;
     height: 1.5rem;
     object-fit: cover;
-    transition-duration: 100ms;
     width: 1.5rem;
   }
 
-  .pfp:hover {
+  .pfp:hover, .pfp:focus {
     filter: brightness(50%);
   }
 }
@@ -151,7 +154,6 @@ p {
         height: 5rem;
         justify-content: end;
         padding: 0.5rem;
-        transition-duration: 250ms;
 
         div {
           background: linear-gradient(to top, rgb(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
@@ -174,7 +176,11 @@ p {
         }
       }
 
-      a > *:hover {
+      a {
+        transition-duration: 250ms;
+      }
+
+      a:focus, a:hover {
         transform: scale(1.025);
       }
     }
@@ -187,8 +193,17 @@ p {
   gap: 1rem;
   margin: 1rem;
 
-  h1 {
-    font-weight: 900;
+  .metadata {
+    display: flex;
+    gap: 1rem;
+    height: 10rem;
+
+    > * {
+      flex: 50%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
   }
 
   .lessons {
