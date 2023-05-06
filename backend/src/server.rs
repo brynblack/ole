@@ -17,9 +17,9 @@ pub struct AppState {
 fn ssl_builder() -> SslAcceptorBuilder {
     let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
     builder
-        .set_private_key_file("key.pem", SslFiletype::PEM)
+        .set_private_key_file("rootCA-key.pem", SslFiletype::PEM)
         .unwrap();
-    builder.set_certificate_chain_file("cert.pem").unwrap();
+    builder.set_certificate_chain_file("rootCA.pem").unwrap();
 
     builder
 }
@@ -37,8 +37,13 @@ pub async fn run() -> std::io::Result<()> {
     let app_data = Data::new(AppState { db_pool });
     let builder = ssl_builder();
 
-    HttpServer::new(move || App::new().app_data(app_data.clone()).configure(routes))
-        .bind_openssl(("127.0.0.1", app_port), builder)?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .wrap(actix_cors::Cors::default().allow_any_origin())
+            .app_data(app_data.clone())
+            .configure(routes)
+    })
+    .bind_openssl(("127.0.0.1", app_port), builder)?
+    .run()
+    .await
 }
