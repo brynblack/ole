@@ -11,7 +11,6 @@ pub fn home() -> Html {
 
     match &user_ctx.token {
         Some(token) => token,
-        // Redirects to the login page when user is `None`.
         None => {
             return html! {
                 <Redirect<Route> to={Route::Login}/>
