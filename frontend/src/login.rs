@@ -1,34 +1,85 @@
 use crate::Info;
 use crate::Route;
 use crate::UserInfo;
-use yew::{prelude::*, suspense::use_future};
+use web_sys::HtmlInputElement;
+use yew::prelude::*;
 use yew_router::prelude::*;
+
+#[derive(Properties, PartialEq)]
+pub struct InputFieldProps {
+    field_name: String,
+    name: String,
+    input_node_ref: NodeRef,
+}
+
+#[function_component(InputField)]
+pub fn input_field(props: &InputFieldProps) -> Html {
+    let InputFieldProps {
+        field_name,
+        name,
+        input_node_ref,
+    } = props;
+
+    html! {
+        <input type={field_name.clone()} name={name.clone()} ref={input_node_ref.clone()} />
+    }
+}
+
+#[derive(Default)]
+pub struct LoginForm {
+    pub username: String,
+    pub password: String,
+}
 
 #[function_component(Login)]
 pub fn login() -> HtmlResult {
     let navigator = use_navigator().unwrap();
-    let onsubmit = Callback::from(move |_| navigator.push(&Route::Home));
+
+    let login_form = use_state(|| LoginForm::default());
+    let username = use_node_ref();
+    let password = use_node_ref();
 
     let user_ctx = use_context::<UseStateHandle<UserInfo>>().unwrap();
 
-    let res = use_future(|| async {
-        let client = reqwest::Client::new();
+    let onsubmit = {
+        let username = username.clone();
+        let password = password.clone();
 
-        client
-            .post("https://localhost:8081/api/auth")
-            .form(&[("username", "brynleyl"), ("password", "meow")])
-            .send()
-            .await?
-            .json::<Info>()
-            .await
-    })?;
+        Callback::from(move |event: SubmitEvent| {
+            event.prevent_default();
 
-    let token = match *res {
-        Ok(ref res) => Some(res.token.clone()),
-        Err(_) => None,
+            let username = username.cast::<HtmlInputElement>().unwrap().value();
+            let password = password.cast::<HtmlInputElement>().unwrap().value();
+            let user_ctx = user_ctx.clone();
+
+            let login_form = LoginForm { username, password };
+
+            wasm_bindgen_futures::spawn_local(async move {
+                let client = reqwest::Client::new();
+
+                let res = client
+                    .post("https://localhost:8081/api/auth")
+                    .form(&[
+                        ("username", login_form.username),
+                        ("password", login_form.password),
+                    ])
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<Info>()
+                    .await;
+
+                let token = match res {
+                    Ok(ref res) => Some(res.token.clone()),
+                    Err(_) => None,
+                };
+
+                user_ctx.set(UserInfo { token });
+            });
+
+            navigator.push(&Route::Home);
+        })
     };
-
-    user_ctx.set(UserInfo { token });
 
     Ok(html! {
         <div class="login-page">
@@ -36,11 +87,11 @@ pub fn login() -> HtmlResult {
                 <h1>{ "Sign In" }</h1>
                 <div class="entry">
                     <label for="username">{ "Username" }</label>
-                    <input id="username" name="username" type="text" />
+                    <InputField input_node_ref={ username } name={"username".clone()} field_name={"text".clone()} />
                 </div>
                 <div class="entry">
                     <label for="password">{ "Password" }</label>
-                    <input id="password" name="password" type="password" />
+                    <InputField input_node_ref={ password } name={"password".clone()} field_name={"password".clone()} />
                     <a href="">{ "Forgot Password?" }</a>
                 </div>
                 <button class="submit-button">{ "Sign In" }</button>

@@ -166,6 +166,9 @@ version = "0.1.0"
 dependencies = [
  "reqwest",
  "serde",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
  "yew",
  "yew-router",
 ]
