@@ -1,5 +1,6 @@
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
   username VARCHAR NOT NULL,
-  password VARCHAR NOT NULL
+  password VARCHAR NOT NULL,
+  pfp VARCHAR NOT NULL
 )

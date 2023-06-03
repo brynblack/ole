@@ -5,5 +5,6 @@ diesel::table! {
         id -> Int4,
         username -> Varchar,
         password -> Varchar,
+        pfp -> Varchar,
     }
 }

@@ -35,7 +35,6 @@ pub struct LoginForm {
 pub fn login() -> HtmlResult {
     let navigator = use_navigator().unwrap();
 
-    let login_form = use_state(|| LoginForm::default());
     let username = use_node_ref();
     let password = use_node_ref();
 
@@ -75,7 +74,12 @@ pub fn login() -> HtmlResult {
                     Err(_) => None,
                 };
 
-                user_ctx.set(UserInfo { token });
+                let pfp = match res {
+                    Ok(ref res) => Some(res.pfp.clone()),
+                    Err(_) => None,
+                };
+
+                user_ctx.set(UserInfo { token, pfp });
                 navigator.push(&Route::Home);
             });
         })

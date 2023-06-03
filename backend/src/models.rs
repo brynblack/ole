@@ -8,6 +8,7 @@ pub struct Account {
     pub id: i32,
     pub username: String,
     pub password: String,
+    pub pfp: String,
 }
 
 #[derive(Insertable)]
@@ -15,15 +16,24 @@ pub struct Account {
 pub struct NewAccount<'a> {
     pub username: &'a str,
     pub password: &'a str,
+    pub pfp: &'a str,
 }
 
 #[derive(Deserialize)]
-pub struct TempAcc {
+pub struct LoginAcc {
     pub username: String,
     pub password: String,
+}
+
+#[derive(Deserialize)]
+pub struct NewAcc {
+    pub username: String,
+    pub password: String,
+    pub pfp: String,
 }
 
 #[derive(Serialize)]
 pub struct LoginResponse {
     pub token: String,
+    pub pfp: String,
 }

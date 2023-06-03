@@ -53,6 +53,8 @@ struct NavProps {
 
 #[function_component(NavBar)]
 fn navbar(props: &NavProps) -> Html {
+    let user_ctx = use_context::<UseStateHandle<UserInfo>>().unwrap();
+
     html! {
         <nav>
             <div>
@@ -60,7 +62,7 @@ fn navbar(props: &NavProps) -> Html {
                 <h1>{ &props.title }</h1>
             </div>
             <Link<Route> to={Route::Login} classes="pfp">
-                <img alt="Profile" src="https://avatars.githubusercontent.com/u/49110391?v=4" />
+                <img alt="Profile" src={user_ctx.pfp.clone()} />
             </Link<Route>>
         </nav>
     }
@@ -80,6 +82,7 @@ struct CourseInfo {
 #[derive(Deserialize)]
 struct Info {
     token: String,
+    pfp: String,
 }
 
 #[function_component(NotFound)]
@@ -103,6 +106,7 @@ fn switch(routes: Route) -> Html {
 #[derive(Default, PartialEq)]
 struct UserInfo {
     token: Option<String>,
+    pfp: Option<String>,
 }
 
 #[function_component(Loading)]

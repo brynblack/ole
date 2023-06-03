@@ -5,15 +5,16 @@ use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use crate::{
-    models::{Account, NewAccount, TempAcc},
+    models::{Account, NewAcc, NewAccount},
     schema::accounts,
     server::AppState,
 };
 
 /// Creates a new account.
-pub async fn create_acc(data: web::Data<AppState>, json: web::Json<TempAcc>) -> HttpResponse {
+pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> HttpResponse {
     let username = &json.username;
     let password = &json.password;
+    let pfp = &json.pfp;
 
     // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
@@ -35,7 +36,11 @@ pub async fn create_acc(data: web::Data<AppState>, json: web::Json<TempAcc>) -> 
         .to_string();
 
     // Create new account
-    let acc = NewAccount { username, password };
+    let acc = NewAccount {
+        username,
+        password,
+        pfp,
+    };
 
     // Insert account into table
     diesel::insert_into(accounts::table)

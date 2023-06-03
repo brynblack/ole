@@ -7,7 +7,7 @@ use jsonwebtoken::{EncodingKey, Header};
 use serde::Serialize;
 
 use crate::{
-    models::{Account, LoginResponse, TempAcc},
+    models::{Account, LoginAcc, LoginResponse},
     schema::accounts,
     server::AppState,
 };
@@ -37,7 +37,7 @@ pub fn gen_token(sub: String) -> String {
 }
 
 /// Authenticates the user.
-pub async fn login(data: web::Data<AppState>, json: web::Form<TempAcc>) -> HttpResponse {
+pub async fn login(data: web::Data<AppState>, json: web::Form<LoginAcc>) -> HttpResponse {
     // Retrieve a database connection from the pool
     let mut connection = data.db_pool.get().unwrap();
 
@@ -57,6 +57,7 @@ pub async fn login(data: web::Data<AppState>, json: web::Form<TempAcc>) -> HttpR
     match Argon2::default().verify_password(json.password.as_bytes(), &parsed_hash) {
         Ok(_) => HttpResponse::Ok().json(web::Json(LoginResponse {
             token: gen_token(account.username),
+            pfp: account.pfp,
         })),
         Err(_) => HttpResponse::BadRequest().finish(),
     }
