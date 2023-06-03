@@ -51,6 +51,7 @@ pub fn login() -> HtmlResult {
             let username = username.cast::<HtmlInputElement>().unwrap().value();
             let password = password.cast::<HtmlInputElement>().unwrap().value();
             let user_ctx = user_ctx.clone();
+            let navigator = navigator.clone();
 
             let login_form = LoginForm { username, password };
 
@@ -75,9 +76,8 @@ pub fn login() -> HtmlResult {
                 };
 
                 user_ctx.set(UserInfo { token });
+                navigator.push(&Route::Home);
             });
-
-            navigator.push(&Route::Home);
         })
     };
 
