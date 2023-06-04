@@ -1,12 +1,7 @@
 [package]
 name = "ole"
 version = "0.1.0"
-authors = ["Brynley Llewellyn-Roux"]
 edition = "2021"
-description = "A fast, scalable online learning platform."
-repository = "https://github.com/brynblack/ole"
-license = "MIT"
-keywords = ["education"]
 
 [dependencies]
 actix-cors = "0.6.4"
