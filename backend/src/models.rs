@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
-use crate::schema::accounts;
+use crate::schema::{accounts, courses};
 
 #[derive(Debug, Queryable)]
 pub struct Account {
@@ -9,6 +9,29 @@ pub struct Account {
     pub username: String,
     pub password: String,
     pub pfp: String,
+}
+
+#[derive(Debug, Queryable)]
+pub struct Course {
+    pub id: i32,
+    pub name: String,
+    pub description: String,
+    pub image: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct CourseInfo {
+    pub name: String,
+    pub description: String,
+    pub image: String,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = courses)]
+pub struct NewCourse<'a> {
+    pub name: &'a str,
+    pub description: &'a str,
+    pub image: &'a str,
 }
 
 #[derive(Insertable)]

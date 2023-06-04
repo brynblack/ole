@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod accounts;
 pub mod auth;
+pub mod courses;
 pub mod login;
 
 #[derive(Deserialize, Serialize)]

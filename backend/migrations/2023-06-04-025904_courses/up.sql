@@ -1,0 +1,6 @@
+CREATE TABLE courses (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  description VARCHAR NOT NULL,
+  image VARCHAR NOT NULL
+)
