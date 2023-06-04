@@ -20,20 +20,29 @@ pub struct NewAccount<'a> {
 }
 
 #[derive(Deserialize)]
-pub struct LoginAcc {
-    pub username: String,
-    pub password: String,
-}
-
-#[derive(Deserialize)]
 pub struct NewAcc {
     pub username: String,
     pub password: String,
     pub pfp: String,
 }
 
+#[derive(Deserialize)]
+pub struct LoginRequest {
+    pub username: String,
+    pub password: String,
+}
+
 #[derive(Serialize)]
 pub struct LoginResponse {
     pub token: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AuthRequest {
+    pub token: String,
+}
+
+#[derive(Serialize)]
+pub struct AccountData {
     pub pfp: String,
 }

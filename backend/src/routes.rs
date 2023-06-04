@@ -1,6 +1,9 @@
-use actix_web::web::{self, ServiceConfig};
+use actix_web::{
+    guard::Header,
+    web::{self, ServiceConfig},
+};
 
-use crate::handlers::{accounts, auth};
+use crate::handlers::{accounts, auth, login};
 
 /// Registers the API routes.
 pub fn routes(cfg: &mut ServiceConfig) {
@@ -12,9 +15,11 @@ pub fn routes(cfg: &mut ServiceConfig) {
                     .route(web::get().to(accounts::get_accounts)),
             )
             .service(
-                web::resource("/auth")
-                    .route(web::post().to(auth::login))
-                    .route(web::delete().to(auth::logout)),
-            ),
+                web::resource("/users/{name}")
+                    .guard(Header("content-type", "application/json"))
+                    .route(web::get().to(auth::temp)),
+            )
+            .service(web::resource("/login").route(web::post().to(login::login)))
+            .service(web::resource("/auth").route(web::post().to(auth::authorize))),
     );
 }

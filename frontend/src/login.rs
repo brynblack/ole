@@ -58,7 +58,7 @@ pub fn login() -> HtmlResult {
                 let client = reqwest::Client::new();
 
                 let res = client
-                    .post("https://localhost:8081/api/auth")
+                    .post("https://localhost:8081/api/login")
                     .form(&[
                         ("username", login_form.username),
                         ("password", login_form.password),
@@ -74,12 +74,7 @@ pub fn login() -> HtmlResult {
                     Err(_) => None,
                 };
 
-                let pfp = match res {
-                    Ok(ref res) => Some(res.pfp.clone()),
-                    Err(_) => None,
-                };
-
-                user_ctx.set(UserInfo { token, pfp });
+                user_ctx.set(UserInfo { token, pfp: None });
                 navigator.push(&Route::Home);
             });
         })

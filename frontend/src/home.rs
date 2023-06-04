@@ -2,18 +2,24 @@ use crate::CourseCard;
 use crate::NavBar;
 use crate::Route;
 use crate::UserInfo;
+use serde::Serialize;
 use yew::prelude::*;
 use yew_router::prelude::*;
+
+#[derive(Serialize)]
+struct Auth {
+    token: String,
+}
 
 #[function_component(Home)]
 pub fn home() -> Html {
     let user_ctx = use_context::<UseStateHandle<UserInfo>>().unwrap();
 
     match &user_ctx.token {
-        Some(token) => token,
+        Some(_) => {}
         None => {
             return html! {
-                <Redirect<Route> to={Route::Login}/>
+                <Redirect<Route> to={Route::Logout}/>
             }
         }
     };

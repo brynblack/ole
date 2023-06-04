@@ -1,69 +1,39 @@
+use super::Claims;
+use crate::models::{Account, AccountData};
+use crate::schema::accounts;
+use crate::{models::AuthRequest, server::AppState};
+use actix_web::{web, HttpResponse};
+use diesel::RunQueryDsl;
+use diesel::{ExpressionMethods, QueryDsl};
+use jsonwebtoken::{Algorithm, DecodingKey, Validation};
 use std::env;
 
-use actix_web::{web, HttpResponse};
-use argon2::{Argon2, PasswordHash, PasswordVerifier};
-use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
-use jsonwebtoken::{EncodingKey, Header};
-use serde::Serialize;
-
-use crate::{
-    models::{Account, LoginAcc, LoginResponse},
-    schema::accounts,
-    server::AppState,
-};
-
-#[derive(Serialize)]
-struct Claims {
-    /// Expiration time (UTC)
-    exp: u64,
-    /// Subject (Who the token is given to)
-    sub: String,
-}
-
-/// Generates a new JWT.
-pub fn gen_token(sub: String) -> String {
+/// Validates a given token.
+pub async fn authorize(json: web::Json<AuthRequest>) -> HttpResponse {
     let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
-    let exp = jsonwebtoken::get_current_timestamp();
+    let decoded = jsonwebtoken::decode::<Claims>(
+        &json.token,
+        &DecodingKey::from_secret(jwt_secret.as_bytes()),
+        &Validation::new(Algorithm::HS512),
+    );
 
-    let claims = Claims { sub, exp };
-
-    jsonwebtoken::encode(
-        &Header::default(),
-        &claims,
-        &EncodingKey::from_secret(jwt_secret.as_bytes()),
-    )
-    .unwrap()
-}
-
-/// Authenticates the user.
-pub async fn login(data: web::Data<AppState>, json: web::Form<LoginAcc>) -> HttpResponse {
-    // Retrieve a database connection from the pool
-    let mut connection = data.db_pool.get().unwrap();
-
-    // Retrieve account from database
-    let account = match accounts::table
-        .filter(accounts::username.eq(&json.username))
-        .first::<Account>(&mut connection)
-    {
-        Ok(account) => account,
-        Err(_) => return HttpResponse::NotFound().finish(),
-    };
-
-    // Parse the already stored hash
-    let parsed_hash = PasswordHash::new(&account.password).unwrap();
-
-    // Verify if the given password matches the hash
-    match Argon2::default().verify_password(json.password.as_bytes(), &parsed_hash) {
-        Ok(_) => HttpResponse::Ok().json(web::Json(LoginResponse {
-            token: gen_token(account.username),
-            pfp: account.pfp,
-        })),
-        Err(_) => HttpResponse::BadRequest().finish(),
+    match decoded {
+        Ok(_) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::Unauthorized().finish(),
     }
 }
 
-/// Revokes authentication for the user.
-pub async fn logout() -> HttpResponse {
-    HttpResponse::Ok().finish()
+pub async fn temp(data: web::Data<AppState>, path: web::Path<String>) -> HttpResponse {
+    let username = path.into_inner();
+
+    // Retrieve a database connection from the pool
+    let mut connection = data.db_pool.get().unwrap();
+
+    let account: Account = accounts::table
+        .filter(accounts::username.eq(username))
+        .first::<Account>(&mut connection)
+        .expect("account does not exist");
+
+    HttpResponse::Ok().json(web::Json(AccountData { pfp: account.pfp }))
 }

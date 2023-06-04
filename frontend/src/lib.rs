@@ -1,6 +1,7 @@
 use crate::course::Course;
 use crate::home::Home;
 use crate::login::Login;
+use crate::logout::Logout;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -9,6 +10,7 @@ use serde::Deserialize;
 mod course;
 mod home;
 mod login;
+mod logout;
 
 pub fn run() {
     yew::Renderer::<App>::new().render();
@@ -22,6 +24,8 @@ enum Route {
     Course { id: usize },
     #[at("/login")]
     Login,
+    #[at("/logout")]
+    Logout,
     #[not_found]
     #[at("/404")]
     NotFound,
@@ -61,7 +65,7 @@ fn navbar(props: &NavProps) -> Html {
                 <img class="ham" alt="Overview" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" />
                 <h1>{ &props.title }</h1>
             </div>
-            <Link<Route> to={Route::Login} classes="pfp">
+            <Link<Route> to={Route::Logout} classes="pfp">
                 <img alt="Profile" src={user_ctx.pfp.clone()} />
             </Link<Route>>
         </nav>
@@ -82,7 +86,6 @@ struct CourseInfo {
 #[derive(Deserialize)]
 struct Info {
     token: String,
-    pfp: String,
 }
 
 #[function_component(NotFound)]
@@ -99,6 +102,7 @@ fn switch(routes: Route) -> Html {
         Route::Home => html! { <Home /> },
         Route::Course { id } => html! { <Course id={ id } /> },
         Route::Login => html! { <Login /> },
+        Route::Logout => html! { <Logout /> },
         Route::NotFound => html! { <NotFound /> },
     }
 }
