@@ -6,13 +6,13 @@ use diesel::RunQueryDsl;
 use diesel::{ExpressionMethods, QueryDsl};
 
 // Retrieves information about a course.
-pub async fn get_course(data: web::Data<AppState>, path: web::Path<String>) -> HttpResponse {
+pub async fn get_course(data: web::Data<AppState>, path: web::Path<i32>) -> HttpResponse {
     let mut connection = data.db_pool.get().unwrap();
 
     let course_id = path.into_inner();
 
     let course: Course = courses::table
-        .filter(courses::name.eq(course_id))
+        .filter(courses::id.eq(course_id))
         .first::<Course>(&mut connection)
         .expect("course does not exist");
 
