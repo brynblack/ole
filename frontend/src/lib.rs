@@ -2,6 +2,7 @@ use crate::course::Course;
 use crate::home::Home;
 use crate::login::Login;
 use crate::logout::Logout;
+use common::AccountData;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -66,7 +67,7 @@ fn navbar(props: &NavProps) -> Html {
                 <h1>{ &props.title }</h1>
             </div>
             <Link<Route> to={Route::Logout} classes="pfp">
-                <img alt="Profile" src={user_ctx.pfp.clone()} />
+                <img alt="Profile" src={user_ctx.data.clone().unwrap().pfp} />
             </Link<Route>>
         </nav>
     }
@@ -75,12 +76,6 @@ fn navbar(props: &NavProps) -> Html {
 #[derive(Properties, PartialEq)]
 pub struct CourseProps {
     id: usize,
-}
-
-struct CourseInfo {
-    name: String,
-    desc: String,
-    img: String,
 }
 
 #[derive(Deserialize)]
@@ -110,7 +105,7 @@ fn switch(routes: Route) -> Html {
 #[derive(Default, PartialEq)]
 struct UserInfo {
     token: Option<String>,
-    pfp: Option<String>,
+    data: Option<AccountData>,
 }
 
 #[function_component(Loading)]

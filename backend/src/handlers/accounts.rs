@@ -1,23 +1,23 @@
-use std::env;
-
-use actix_web::{web, HttpResponse};
-use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
-use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
-
 use crate::{
-    models::{Account, NewAcc, NewAccount},
+    models::{Account, NewAccount},
     schema::accounts,
     server::AppState,
 };
+use actix_web::{web, HttpResponse};
+use argon2::{password_hash::SaltString, Argon2, PasswordHasher};
+use common::{AccountData, NewAcc};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use std::env;
 
 /// Creates a new account.
 pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> HttpResponse {
+    // Retrieve a database connection from the pool
+    let mut connection = data.db_pool.get().unwrap();
+
+    // Extract data into variables for readability
     let username = &json.username;
     let password = &json.password;
     let pfp = &json.pfp;
-
-    // Retrieve a database connection from the pool
-    let mut connection = data.db_pool.get().unwrap();
 
     // Check if an account already exists with the given username
     accounts::table
@@ -52,22 +52,15 @@ pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> H
     HttpResponse::Ok().finish()
 }
 
-/// Returns a space separated list of all the currently registered users.
-pub async fn get_accounts(data: web::Data<AppState>) -> HttpResponse {
-    // Retrieve a database connection from the pool
+pub async fn get_acc(data: web::Data<AppState>, path: web::Path<String>) -> HttpResponse {
     let mut connection = data.db_pool.get().unwrap();
 
-    // Retrieve a vector containing all of the accounts
-    let rg_accounts = accounts::table
-        .load::<Account>(&mut connection)
-        .expect("error retrieving accounts");
+    let username = path.into_inner();
 
-    // Return OK response containing a list of the accounts
-    HttpResponse::Ok().body(format!(
-        "Here are the registered accounts: {}",
-        rg_accounts
-            .into_iter()
-            .map(|a| { format!("{} ", a.username) })
-            .collect::<String>()
-    ))
+    let account: Account = accounts::table
+        .filter(accounts::username.eq(username))
+        .first::<Account>(&mut connection)
+        .expect("account does not exist");
+
+    HttpResponse::Ok().json(web::Json(AccountData { pfp: account.pfp }))
 }

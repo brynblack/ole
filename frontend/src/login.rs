@@ -1,6 +1,7 @@
 use crate::Info;
 use crate::Route;
 use crate::UserInfo;
+use common::AccountData;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -60,8 +61,8 @@ pub fn login() -> HtmlResult {
                 let res = client
                     .post("https://localhost:8081/api/login")
                     .form(&[
-                        ("username", login_form.username),
-                        ("password", login_form.password),
+                        ("username", login_form.username.clone()),
+                        ("password", login_form.password.clone()),
                     ])
                     .send()
                     .await
@@ -74,7 +75,23 @@ pub fn login() -> HtmlResult {
                     Err(_) => None,
                 };
 
-                user_ctx.set(UserInfo { token, pfp: None });
+                let res = client
+                    .get(
+                        "https://localhost:8081/api/accounts/".to_owned()
+                            + &login_form.username.clone(),
+                    )
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<AccountData>()
+                    .await;
+
+                let data = match res {
+                    Ok(res) => Some(res),
+                    Err(_) => None,
+                };
+
+                user_ctx.set(UserInfo { token, data });
                 navigator.push(&Route::Home);
             });
         })

@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+common = { path = "../common"}
 actix-cors = "0.6.4"
 actix-files = "0.6.2"
 actix-web = { version = "4.3.0", features = ["openssl"] }

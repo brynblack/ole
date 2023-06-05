@@ -1,4 +1,4 @@
-# ole
+# OLE
 A fast, scalable online learning platform.
 
 ![](https://img.shields.io/github/issues/brynblack/ole?style=flat-square) ![](https://img.shields.io/github/last-commit/brynblack/ole?style=flat-square) ![](https://img.shields.io/github/license/brynblack/ole?style=flat-square)
@@ -17,7 +17,7 @@ Currently, the project is under heavy development and has many missing features,
 - [License](#license)
 
 ## Installation
-To install and set up a OLE server, you can clone the GitHub repository and follow the following steps.
+To install and set up an OLE server, you can clone the GitHub repository and follow the following steps.
 
 ### Dependencies
 - Rust (MSRV should be latest for security)

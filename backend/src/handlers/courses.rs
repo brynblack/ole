@@ -1,14 +1,15 @@
+use crate::models::NewCourse;
+use crate::{models::Course, schema::courses, server::AppState};
 use actix_web::{web, HttpResponse};
+use common::CourseInfo;
 use diesel::RunQueryDsl;
 use diesel::{ExpressionMethods, QueryDsl};
 
-use crate::models::{CourseInfo, NewCourse};
-use crate::{models::Course, schema::courses, server::AppState};
-
-pub async fn course(data: web::Data<AppState>, path: web::Path<String>) -> HttpResponse {
-    let course_id = path.into_inner();
-
+// Retrieves information about a course.
+pub async fn get_course(data: web::Data<AppState>, path: web::Path<String>) -> HttpResponse {
     let mut connection = data.db_pool.get().unwrap();
+
+    let course_id = path.into_inner();
 
     let course: Course = courses::table
         .filter(courses::name.eq(course_id))
@@ -20,6 +21,25 @@ pub async fn course(data: web::Data<AppState>, path: web::Path<String>) -> HttpR
         description: course.description,
         image: course.image,
     })
+}
+
+pub async fn get_courses(data: web::Data<AppState>) -> HttpResponse {
+    let mut connection = data.db_pool.get().unwrap();
+
+    let courses = courses::table
+        .load::<Course>(&mut connection)
+        .expect("error retrieving courses");
+
+    let accs: Vec<CourseInfo> = courses
+        .into_iter()
+        .map(|acc| CourseInfo {
+            name: acc.name,
+            description: acc.description,
+            image: acc.image,
+        })
+        .collect();
+
+    HttpResponse::Ok().json(accs)
 }
 
 /// Creates a new account.

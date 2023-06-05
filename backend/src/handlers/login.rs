@@ -1,18 +1,13 @@
-use std::env;
-
+use super::Claims;
+use crate::{models::Account, schema::accounts, server::AppState};
 use actix_web::{web, HttpResponse};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use chrono::{Duration, Utc};
+use common::LoginRequest;
+use common::LoginResponse;
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 use jsonwebtoken::{Algorithm, EncodingKey, Header};
-
-use crate::{
-    models::{Account, LoginRequest, LoginResponse},
-    schema::accounts,
-    server::AppState,
-};
-
-use super::Claims;
+use std::env;
 
 /// Generates a new JWT.
 pub fn gen_token(sub: String) -> String {
