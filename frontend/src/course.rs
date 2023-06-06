@@ -5,7 +5,7 @@ use yew::prelude::*;
 
 #[function_component(Course)]
 pub fn course(props: &CourseProps) -> Html {
-    let course = use_state(|| CourseInfo::default());
+    let course = use_state_eq(|| CourseInfo::default());
 
     {
         let course = course.clone();

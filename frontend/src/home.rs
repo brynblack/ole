@@ -25,7 +25,7 @@ pub fn home() -> Html {
         }
     };
 
-    let courses = use_state(|| Vec::<CourseInfo>::new());
+    let courses = use_state_eq(|| Vec::<CourseInfo>::new());
 
     {
         let courses = courses.clone();

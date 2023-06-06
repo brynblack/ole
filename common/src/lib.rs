@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Default, Deserialize, Serialize)]
+#[derive(Default, Deserialize, PartialEq, Serialize)]
 pub struct CourseInfo {
     pub name: String,
     pub description: String,
