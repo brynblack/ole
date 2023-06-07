@@ -1,10 +1,19 @@
+use crate::auth;
 use crate::CourseProps;
 use crate::NavBar;
+use crate::UserInfo;
+use crate::BASE_URL;
 use common::CourseInfo;
 use yew::prelude::*;
+use yew_router::prelude::use_navigator;
 
 #[function_component(Course)]
 pub fn course(props: &CourseProps) -> Html {
+    let user_ctx = use_context::<UseStateHandle<UserInfo>>().unwrap();
+    let navigator = use_navigator().unwrap();
+
+    auth(&user_ctx, &navigator);
+
     let course = use_state_eq(|| CourseInfo::default());
 
     {
@@ -14,7 +23,7 @@ pub fn course(props: &CourseProps) -> Html {
         wasm_bindgen_futures::spawn_local(async move {
             course.set(
                 reqwest::Client::new()
-                    .get(format!("https://localhost:8081/api/courses/{}", id + 1))
+                    .get(format!("{BASE_URL}/api/courses/{}", id + 1))
                     .send()
                     .await
                     .unwrap()

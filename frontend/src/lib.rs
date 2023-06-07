@@ -2,7 +2,7 @@ use crate::course::Course;
 use crate::home::Home;
 use crate::login::Login;
 use crate::logout::Logout;
-use common::AccountData;
+use common::{AccountData, AuthRequest};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -12,6 +12,8 @@ mod course;
 mod home;
 mod login;
 mod logout;
+
+pub const BASE_URL: &str = "https://localhost:8081";
 
 pub fn run() {
     yew::Renderer::<App>::new().render();
@@ -37,6 +39,35 @@ struct CardProps {
     id: usize,
     name: String,
     img: String,
+}
+
+fn auth(user_ctx: &UseStateHandle<UserInfo>, navigator: &Navigator) {
+    match &user_ctx.token {
+        Some(token) => {
+            let token = token.clone();
+            let navigator = navigator.clone();
+
+            wasm_bindgen_futures::spawn_local(async move {
+                let res = reqwest::Client::new()
+                    .post(format!("{BASE_URL}/api/auth"))
+                    .json(&AuthRequest {
+                        token: token.to_string(),
+                    })
+                    .send()
+                    .await
+                    .unwrap()
+                    .status()
+                    .is_success();
+
+                if !res {
+                    navigator.push(&Route::Login);
+                }
+            });
+        }
+        None => {
+            navigator.push(&Route::Login);
+        }
+    }
 }
 
 #[function_component(CourseCard)]

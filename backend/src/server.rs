@@ -39,11 +39,17 @@ pub async fn run() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .wrap(actix_cors::Cors::default().allow_any_origin())
+            .wrap(
+                actix_cors::Cors::default()
+                    .allow_any_origin()
+                    .allow_any_method()
+                    .allow_any_header(),
+            )
             .app_data(app_data.clone())
             .configure(routes)
     })
     .bind_openssl(("127.0.0.1", app_port), builder)?
+    // .bind(("127.0.0.1", app_port))?
     .run()
     .await
 }

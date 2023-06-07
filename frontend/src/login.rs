@@ -1,6 +1,7 @@
 use crate::Info;
 use crate::Route;
 use crate::UserInfo;
+use crate::BASE_URL;
 use common::AccountData;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -59,7 +60,7 @@ pub fn login() -> HtmlResult {
                 let client = reqwest::Client::new();
 
                 let res = client
-                    .post("https://localhost:8081/api/login")
+                    .post(format!("{BASE_URL}/api/login"))
                     .form(&[
                         ("username", login_form.username.clone()),
                         ("password", login_form.password.clone()),
@@ -76,10 +77,7 @@ pub fn login() -> HtmlResult {
                 };
 
                 let res = client
-                    .get(
-                        "https://localhost:8081/api/accounts/".to_owned()
-                            + &login_form.username.clone(),
-                    )
+                    .get(format!("{BASE_URL}/api/accounts/{}", login_form.username))
                     .send()
                     .await
                     .unwrap()
