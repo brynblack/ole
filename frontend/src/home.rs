@@ -40,9 +40,9 @@ pub fn home() -> Html {
                 <h4>{ "Courses" }</h4>
                 <div class="courses">
                     {
-                        for courses.iter().enumerate().map(|(id, course)| {
+                        for courses.iter().map(|course| {
                             html! {
-                                <CourseCard id={ id } name={ course.name.clone() } img={ course.image.clone() } />
+                                <CourseCard id={ course.name.to_lowercase().replace(" ", "-") } name={ course.name.clone() } img={ course.image.clone() } />
                             }
                         })
                     }

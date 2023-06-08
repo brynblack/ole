@@ -12,10 +12,14 @@ diesel::table! {
 diesel::table! {
     courses (id) {
         id -> Int4,
+        slug -> Varchar,
         name -> Varchar,
         description -> Varchar,
         image -> Varchar,
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(accounts, courses,);
+diesel::allow_tables_to_appear_in_same_query!(
+    accounts,
+    courses,
+);

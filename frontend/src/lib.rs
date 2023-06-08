@@ -24,7 +24,7 @@ enum Route {
     #[at("/")]
     Home,
     #[at("/courses/:id")]
-    Course { id: usize },
+    Course { id: String },
     #[at("/login")]
     Login,
     #[at("/logout")]
@@ -36,7 +36,7 @@ enum Route {
 
 #[derive(Properties, PartialEq)]
 struct CardProps {
-    id: usize,
+    id: String,
     name: String,
     img: String,
 }
@@ -60,12 +60,12 @@ fn auth(user_ctx: &UseStateHandle<UserInfo>, navigator: &Navigator) {
                     .is_success();
 
                 if !res {
-                    navigator.push(&Route::Login);
+                    navigator.push(&Route::Logout);
                 }
             });
         }
         None => {
-            navigator.push(&Route::Login);
+            navigator.push(&Route::Logout);
         }
     }
 }
@@ -73,7 +73,7 @@ fn auth(user_ctx: &UseStateHandle<UserInfo>, navigator: &Navigator) {
 #[function_component(CourseCard)]
 fn course_card(props: &CardProps) -> Html {
     html! {
-        <Link<Route> to={Route::Course { id: props.id }}>
+        <Link<Route> to={Route::Course { id: props.id.clone() }}>
             <div style={ "background-image: url(\"".to_owned() + &props.img + "\");" }>
                 <div></div>
                 <h3>{ props.name.clone() }</h3>
@@ -106,7 +106,7 @@ fn navbar(props: &NavProps) -> Html {
 
 #[derive(Properties, PartialEq)]
 pub struct CourseProps {
-    id: usize,
+    id: String,
 }
 
 #[derive(Deserialize)]

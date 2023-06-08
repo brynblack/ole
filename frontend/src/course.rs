@@ -23,7 +23,7 @@ pub fn course(props: &CourseProps) -> Html {
         wasm_bindgen_futures::spawn_local(async move {
             course.set(
                 reqwest::Client::new()
-                    .get(format!("{BASE_URL}/api/courses/{}", id + 1))
+                    .get(format!("{BASE_URL}/api/courses/{}", id))
                     .send()
                     .await
                     .unwrap()
