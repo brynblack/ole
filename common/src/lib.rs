@@ -30,7 +30,7 @@ pub struct AuthRequest {
     pub token: String,
 }
 
-#[derive(Clone, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Default, Deserialize, PartialEq, Serialize)]
 pub struct AccountData {
     pub pfp: String,
 }

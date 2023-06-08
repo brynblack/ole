@@ -98,7 +98,7 @@ fn navbar(props: &NavProps) -> Html {
                 <h1>{ &props.title }</h1>
             </div>
             <Link<Route> to={Route::Logout} classes="pfp">
-                <img alt="Profile" src={user_ctx.data.clone().unwrap().pfp} />
+                <img alt="Profile" src={user_ctx.data.clone().unwrap_or_default().pfp} />
             </Link<Route>>
         </nav>
     }
