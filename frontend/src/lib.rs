@@ -74,7 +74,7 @@ fn auth(user_ctx: &UseStateHandle<UserInfo>, navigator: &Navigator) {
 fn course_card(props: &CardProps) -> Html {
     html! {
         <Link<Route> to={Route::Course { id: props.id.clone() }}>
-            <div style={ "background-image: url(\"".to_owned() + &props.img + "\");" }>
+            <div style={ format!("background-image: url({});", props.img) }>
                 <div></div>
                 <h3>{ props.name.clone() }</h3>
             </div>

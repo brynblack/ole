@@ -39,7 +39,7 @@ pub fn course(props: &CourseProps) -> Html {
             <NavBar title={ course.name.clone() } />
             <div class="metadata">
                 <p>{ course.description.clone() }</p>
-                <img src={ course.image.clone() } />
+                <div style={ format!("background-image: url({});", course.image.clone()) } />
             </div>
             <h4>{ "Lessons" }</h4>
             <div class="lessons">
