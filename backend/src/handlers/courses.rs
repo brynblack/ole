@@ -1,5 +1,5 @@
 use crate::models::NewCourse;
-use crate::{models::Course, schema::courses, server::AppState};
+use crate::{models::Course, schema::courses, AppState};
 use actix_web::{web, HttpResponse};
 use common::CourseInfo;
 use diesel::RunQueryDsl;
@@ -52,7 +52,7 @@ pub async fn create_course(data: web::Data<AppState>, json: web::Json<CourseInfo
         .expect_err("course already exists");
 
     let course = NewCourse {
-        slug: &json.name.to_lowercase().replace(" ", "-"),
+        slug: &json.name.to_lowercase().replace(' ', "-"),
         name: &json.name,
         description: &json.description,
         image: &json.image,

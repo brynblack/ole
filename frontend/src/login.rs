@@ -101,11 +101,11 @@ pub fn login() -> HtmlResult {
                 <h1>{ "Sign In" }</h1>
                 <div class="entry">
                     <label for="username">{ "Username" }</label>
-                    <InputField input_node_ref={ username } name={"username".clone()} field_name={"text".clone()} />
+                    <InputField input_node_ref={ username } name={"username"} field_name={"text"} />
                 </div>
                 <div class="entry">
                     <label for="password">{ "Password" }</label>
-                    <InputField input_node_ref={ password } name={"password".clone()} field_name={"password".clone()} />
+                    <InputField input_node_ref={ password } name={"password"} field_name={"password"} />
                     <a href="">{ "Forgot Password?" }</a>
                 </div>
                 <button class="submit-button">{ "Sign In" }</button>

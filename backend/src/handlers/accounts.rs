@@ -1,7 +1,7 @@
 use crate::{
     models::{Account, NewAccount},
     schema::accounts,
-    server::AppState,
+    AppState,
 };
 use actix_web::{web, HttpResponse};
 use argon2::{password_hash::SaltString, Argon2, PasswordHasher};

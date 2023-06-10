@@ -1,11 +1,10 @@
-use std::env;
-
 use diesel::{
     r2d2::{ConnectionManager, Pool},
     PgConnection,
 };
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 use log::info;
+use std::env;
 
 const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 

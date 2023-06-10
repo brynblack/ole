@@ -1,5 +1,5 @@
 use super::Claims;
-use crate::{models::Account, schema::accounts, server::AppState};
+use crate::{models::Account, schema::accounts, AppState};
 use actix_web::{web, HttpResponse};
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
 use chrono::{Duration, Utc};

@@ -14,7 +14,7 @@ pub fn home() -> Html {
 
     auth(&user_ctx, &navigator);
 
-    let courses = use_state_eq(|| Vec::<CourseInfo>::new());
+    let courses = use_state_eq(Vec::<CourseInfo>::new);
 
     {
         let courses = courses.clone();
@@ -42,7 +42,7 @@ pub fn home() -> Html {
                     {
                         for courses.iter().map(|course| {
                             html! {
-                                <CourseCard id={ course.name.to_lowercase().replace(" ", "-") } name={ course.name.clone() } img={ course.image.clone() } />
+                                <CourseCard id={ course.name.to_lowercase().replace(' ', "-") } name={ course.name.clone() } img={ course.image.clone() } />
                             }
                         })
                     }
