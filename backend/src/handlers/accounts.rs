@@ -20,10 +20,13 @@ pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> H
     let pfp = &json.pfp;
 
     // Check if an account already exists with the given username
-    accounts::table
+    match accounts::table
         .filter(accounts::username.eq(username))
         .first::<Account>(&mut connection)
-        .expect_err("account already exists");
+    {
+        Ok(_) => (),
+        Err(_) => return HttpResponse::Ok().finish(),
+    };
 
     // Hash password
     let salt = env::var("PWD_SALT").expect("PWD_SALT must be set");
