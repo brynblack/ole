@@ -24,8 +24,8 @@ pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> H
         .filter(accounts::username.eq(username))
         .first::<Account>(&mut connection)
     {
-        Ok(_) => (),
-        Err(_) => return HttpResponse::Ok().finish(),
+        Ok(_) => return HttpResponse::Ok().finish(),
+        Err(_) => (),
     };
 
     // Hash password
