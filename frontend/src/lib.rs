@@ -3,6 +3,7 @@ use crate::home::Home;
 use crate::login::Login;
 use crate::logout::Logout;
 use common::{AccountData, AuthRequest};
+use lesson::Lesson;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -10,6 +11,7 @@ use serde::Deserialize;
 
 mod course;
 mod home;
+mod lesson;
 mod login;
 mod logout;
 
@@ -25,6 +27,8 @@ enum Route {
     Home,
     #[at("/courses/:id")]
     Course { id: String },
+    #[at("/lessons/:id")]
+    Lesson { id: String },
     #[at("/login")]
     Login,
     #[at("/logout")]
@@ -109,6 +113,11 @@ pub struct CourseProps {
     id: String,
 }
 
+#[derive(Properties, PartialEq)]
+pub struct LessonProps {
+    id: String,
+}
+
 #[derive(Deserialize)]
 struct Info {
     token: String,
@@ -127,6 +136,7 @@ fn switch(routes: Route) -> Html {
     match routes {
         Route::Home => html! { <Home /> },
         Route::Course { id } => html! { <Course id={ id } /> },
+        Route::Lesson { id } => html! { <Lesson id={ id } /> },
         Route::Login => html! { <Login /> },
         Route::Logout => html! { <Logout /> },
         Route::NotFound => html! { <NotFound /> },

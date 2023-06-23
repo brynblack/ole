@@ -19,4 +19,14 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(accounts, courses,);
+diesel::table! {
+    lessons (id) {
+        id -> Int4,
+        slug -> Varchar,
+        name -> Varchar,
+        content -> Varchar,
+        image -> Varchar,
+    }
+}
+
+diesel::allow_tables_to_appear_in_same_query!(accounts, courses, lessons,);

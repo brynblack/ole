@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::schema::{accounts, courses};
+use crate::schema::{accounts, courses, lessons};
 
 #[derive(Debug, Queryable, Selectable)]
 #[diesel(table_name = accounts)]
@@ -21,6 +21,16 @@ pub struct Course {
     pub image: String,
 }
 
+#[derive(Debug, Queryable, Selectable)]
+#[diesel(table_name = lessons)]
+pub struct Lesson {
+    pub id: i32,
+    pub slug: String,
+    pub name: String,
+    pub content: String,
+    pub image: String,
+}
+
 #[derive(Insertable)]
 #[diesel(table_name = accounts)]
 pub struct NewAccount<'a> {
@@ -35,5 +45,14 @@ pub struct NewCourse<'a> {
     pub slug: &'a str,
     pub name: &'a str,
     pub description: &'a str,
+    pub image: &'a str,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = lessons)]
+pub struct NewLesson<'a> {
+    pub slug: &'a str,
+    pub name: &'a str,
+    pub content: &'a str,
     pub image: &'a str,
 }

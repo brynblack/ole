@@ -1,0 +1,7 @@
+CREATE TABLE lessons (
+  id SERIAL PRIMARY KEY,
+  slug VARCHAR NOT NULL,
+  name VARCHAR NOT NULL,
+  content VARCHAR NOT NULL,
+  image VARCHAR NOT NULL
+)

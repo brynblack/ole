@@ -42,7 +42,7 @@ pub async fn get_courses(data: web::Data<AppState>) -> HttpResponse {
     HttpResponse::Ok().json(accs)
 }
 
-/// Creates a new account.
+/// Creates a new course.
 pub async fn create_course(data: web::Data<AppState>, json: web::Json<CourseInfo>) -> HttpResponse {
     let mut connection = data.db_pool.get().unwrap();
 

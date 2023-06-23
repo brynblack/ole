@@ -225,6 +225,27 @@ nav {
   }
 }
 
+.lesson-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem;
+
+  .metadata {
+    display: flex;
+    gap: 1rem;
+    height: 15rem;
+
+    > * {
+      flex: 50%;
+      width: 100%;
+      object-fit: cover;
+      background-size: cover;
+      border-radius: 12px;
+    }
+  }
+}
+
 .notfound-page {
   display: grid;
   min-height: 100vh;

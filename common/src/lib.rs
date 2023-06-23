@@ -7,6 +7,13 @@ pub struct CourseInfo {
     pub image: String,
 }
 
+#[derive(Default, Deserialize, PartialEq, Serialize)]
+pub struct LessonInfo {
+    pub name: String,
+    pub content: String,
+    pub image: String,
+}
+
 #[derive(Deserialize)]
 pub struct NewAcc {
     pub username: String,
