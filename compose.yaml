@@ -1,16 +1,17 @@
 services:
-  ole:
-    container_name: ole
-    image: ole-rust
-    restart: always
-    env_file:
-      - "./.env"
-
   db:
     container_name: postgres
     image: docker.io/postgres
     restart: always
-    ports:
-      - "5432:5432"
+    network_mode: host
     env_file:
       - "./.env"
+
+  ole:
+    container_name: ole
+    image: ole-rust
+    restart: always
+    network_mode: host
+    env_file:
+      - "./.env"
+
