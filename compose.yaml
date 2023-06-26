@@ -1,4 +1,11 @@
 services:
+  ole:
+    container_name: ole
+    image: ole-rust
+    restart: always
+    env_file:
+      - "./.env"
+
   db:
     container_name: postgres
     image: docker.io/postgres
