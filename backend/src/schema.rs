@@ -22,6 +22,7 @@ diesel::table! {
 diesel::table! {
     lessons (id) {
         id -> Int4,
+        reference -> Varchar,
         slug -> Varchar,
         name -> Varchar,
         content -> Varchar,
@@ -29,4 +30,8 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(accounts, courses, lessons,);
+diesel::allow_tables_to_appear_in_same_query!(
+    accounts,
+    courses,
+    lessons,
+);

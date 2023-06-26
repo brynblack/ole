@@ -86,6 +86,18 @@ fn course_card(props: &CardProps) -> Html {
     }
 }
 
+#[function_component(LessonCard)]
+fn lesson_card(props: &CardProps) -> Html {
+    html! {
+        <Link<Route> to={Route::Lesson { id: props.id.clone() }}>
+            <div style={ format!("background-image: url({});", props.img) }>
+                <div></div>
+                <h3>{ props.name.clone() }</h3>
+            </div>
+        </Link<Route>>
+    }
+}
+
 #[derive(Properties, PartialEq)]
 struct NavProps {
     title: String,

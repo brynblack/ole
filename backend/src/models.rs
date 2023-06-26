@@ -25,6 +25,7 @@ pub struct Course {
 #[diesel(table_name = lessons)]
 pub struct Lesson {
     pub id: i32,
+    pub reference: String,
     pub slug: String,
     pub name: String,
     pub content: String,
@@ -51,6 +52,7 @@ pub struct NewCourse<'a> {
 #[derive(Insertable)]
 #[diesel(table_name = lessons)]
 pub struct NewLesson<'a> {
+    pub reference: &'a str,
     pub slug: &'a str,
     pub name: &'a str,
     pub content: &'a str,

@@ -18,6 +18,7 @@ pub async fn get_lesson(data: web::Data<AppState>, path: web::Path<String>) -> H
         .expect("lesson does not exist");
 
     HttpResponse::Ok().json(LessonInfo {
+        reference: lesson.reference,
         name: lesson.name,
         content: lesson.content,
         image: lesson.image,
@@ -35,6 +36,7 @@ pub async fn get_lessons(data: web::Data<AppState>) -> HttpResponse {
     let accs: Vec<LessonInfo> = lessons
         .into_iter()
         .map(|lsn| LessonInfo {
+            reference: lsn.reference,
             name: lsn.name,
             content: lsn.content,
             image: lsn.image,
@@ -54,6 +56,7 @@ pub async fn create_lesson(data: web::Data<AppState>, json: web::Json<LessonInfo
         .expect_err("lesson already exists");
 
     let lesson = NewLesson {
+        reference: &json.reference,
         slug: &json.name.to_lowercase().replace(' ', "-"),
         name: &json.name,
         content: &json.content,

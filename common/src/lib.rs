@@ -9,6 +9,7 @@ pub struct CourseInfo {
 
 #[derive(Default, Deserialize, PartialEq, Serialize)]
 pub struct LessonInfo {
+    pub reference: String,
     pub name: String,
     pub content: String,
     pub image: String,
