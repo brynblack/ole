@@ -1,0 +1,17 @@
+services:
+  db:
+    container_name: postgres
+    image: docker.io/postgres
+    restart: always
+    network_mode: host
+    env_file:
+      - "./.env"
+
+  ole:
+    container_name: ole
+    image: ole-rust
+    restart: always
+    network_mode: host
+    env_file:
+      - "./.env"
+
