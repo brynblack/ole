@@ -46,10 +46,13 @@ pub async fn get_courses(data: web::Data<AppState>) -> HttpResponse {
 pub async fn create_course(data: web::Data<AppState>, json: web::Json<CourseInfo>) -> HttpResponse {
     let mut connection = data.db_pool.get().unwrap();
 
-    courses::table
+    match courses::table
         .filter(courses::name.eq(&json.name))
         .first::<Course>(&mut connection)
-        .expect_err("course already exists");
+    {
+        Ok(_) => return HttpResponse::Ok().finish(),
+        Err(_) => (),
+    };
 
     let course = NewCourse {
         slug: &json.name.to_lowercase().replace(' ', "-"),
@@ -58,10 +61,13 @@ pub async fn create_course(data: web::Data<AppState>, json: web::Json<CourseInfo
         image: &json.image,
     };
 
-    diesel::insert_into(courses::table)
+    match diesel::insert_into(courses::table)
         .values(&course)
         .get_result::<Course>(&mut connection)
-        .expect("error creating new course");
+    {
+        Ok(_) => return HttpResponse::Ok().finish(),
+        Err(_) => (),
+    };
 
     HttpResponse::Ok().finish()
 }

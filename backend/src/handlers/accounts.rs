@@ -46,10 +46,13 @@ pub async fn create_acc(data: web::Data<AppState>, json: web::Json<NewAcc>) -> H
     };
 
     // Insert account into table
-    diesel::insert_into(accounts::table)
+    match diesel::insert_into(accounts::table)
         .values(&acc)
         .get_result::<Account>(&mut connection)
-        .expect("error creating new account");
+    {
+        Ok(_) => return HttpResponse::Ok().finish(),
+        Err(_) => (),
+    };
 
     // Return OK response
     HttpResponse::Ok().finish()
