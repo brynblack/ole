@@ -60,10 +60,13 @@ pub async fn get_acc(data: web::Data<AppState>, path: web::Path<String>) -> Http
 
     let username = path.into_inner();
 
-    let account: Account = accounts::table
+    let account: Account = match accounts::table
         .filter(accounts::username.eq(username))
         .first::<Account>(&mut connection)
-        .expect("account does not exist");
+    {
+        Ok(account) => account,
+        Err(_) => return HttpResponse::Ok().finish(),
+    };
 
     HttpResponse::Ok().json(web::Json(AccountData { pfp: account.pfp }))
 }
