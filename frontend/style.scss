@@ -54,6 +54,7 @@ nav {
     height: 2.5rem;
     object-fit: cover;
     width: 2.5rem;
+    min-width: 2.5rem;
   }
 
   .pfp:hover, .pfp:focus {
@@ -194,7 +195,7 @@ nav {
   .metadata {
     display: flex;
     gap: 1rem;
-    height: 15rem;
+    min-height: 15rem;
 
     > * {
       flex: 50%;
@@ -252,18 +253,6 @@ nav {
     a:focus, a:hover {
       transform: scale(1.025);
     }
-
-    // a * {
-    //   aspect-ratio: 2 / 1;
-    //   background-color: #141414;
-    //   border-radius: 1rem;
-    //   height: 10rem;
-    //   transition-duration: 250ms;
-    // }
-
-    // > *:hover {
-    //     transform: scale(1.025);
-    // }
   }
 }
 
@@ -276,7 +265,7 @@ nav {
   .metadata {
     display: flex;
     gap: 1rem;
-    height: 15rem;
+    min-height: 15rem;
 
     > * {
       flex: 50%;
