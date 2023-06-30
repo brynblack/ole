@@ -14,17 +14,29 @@ Currently, the project is under heavy development and has many missing features,
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Install on Linux](#install-on-linux)
+  - [Develop](#develop)
 - [License](#license)
 
 ## Installation
-To install and set up an OLE server, you can clone the GitHub repository and follow the following steps.
+To install and set up an OLE server, you can complete the follow the following steps.
 
 ### Dependencies
-- Rust (MSRV should be latest for security)
 - Podman or Docker and their compose variant
-- Trunk
+- Git
 
 ### Install on Linux
+If you have Docker:
+```
+git clone https://github.com/brynblack/ole; cd ole; sudo ./run.sh
+```
+If you have Podman:
+```
+git clone https://github.com/brynblack/ole; cd ole; sudo ./run-podman.sh
+```
+Now, you can navigate to http://localhost:8080 to access the website!
+
+## Develop
+To set up a development environment and set up an OLE server, you can complete the follow the following steps.
 
 Within the `backend` module, you may run the following command to create the postgres database. You can replace `podman-compose` with `docker-compose` if you are using Docker instead of Podman.
 ```
@@ -38,7 +50,6 @@ Create another terminal and navigate to the `frontend` module. From there, you c
 ```
 trunk serve --open
 ```
-Now, you can navigate to http://localhost:8080 to access the website!
 
 ## License
 The source code for this project is licensed under the MIT license. You may find the conditions of the license [here](LICENSE.md).
